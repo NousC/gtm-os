@@ -1,0 +1,12 @@
+# OS noise
+.DS_Store
+
+# Secrets
+.env
+.env.local
+
+# Dependencies
+node_modules/
+
+# Personal runtime output (the kit ships clean, these fill as you use it)
+briefs/
