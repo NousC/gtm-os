@@ -46,8 +46,6 @@ Four skills, kept lean on purpose. You add more as you grow (see `EXPANSIONS.md`
 | `/morning-brief` | Daily. Pulls your accounts, your follow-ups, and what went quiet into one brief so you start the day already oriented. |
 | `/intel` | Weekly. Turns the week's internal meetings, decisions, and saved sources into durable insight in the `intel/` layer. |
 
-Four skills now, still lean. You add more as you grow (see `EXPANSIONS.md`).
-
 ---
 
 ## The context files
