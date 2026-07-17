@@ -18,10 +18,11 @@ while still owning every row.
 
 ## Setup, once
 
-1. **Create a Supabase project** at supabase.com (the free tier is plenty to start).
+The whole point is that you do one thing, and the OS does the rest. Your one job is to
+connect your Supabase MCP server. After that, the agent pushes the schema for you.
 
-2. **Add the Supabase MCP server** so this OS can read and write your database directly.
-   The clean path is the official Supabase MCP. In Claude Code:
+1. **Add the Supabase MCP server** so this OS can read and write your database directly.
+   In Claude Code:
 
    ```
    claude mcp add supabase -- npx -y @supabase/mcp-server-supabase --project-ref=<your-project-ref>
@@ -29,13 +30,15 @@ while still owning every row.
 
    Set the access token it asks for (Supabase, Settings, Access Tokens). Confirm it is
    connected with `claude mcp list`. Save the exact command to `references/supabase-mcp.md`.
+   (No Supabase project yet? Create one at supabase.com first, the free tier is plenty.)
 
-3. **Run the schema.** Either paste `supabase/schema.sql` into the Supabase SQL Editor and
-   run it, or, with the MCP connected, ask this OS: "apply supabase/schema.sql to my
-   database" (it uses the MCP `apply_migration`). It is safe to re-run.
+2. **Let the agent push the schema.** With the MCP connected, just say: "set up my lead
+   store." The agent asks whether to use an existing project or a fresh one, then applies
+   `supabase/schema.sql` for you with the MCP `apply_migration`. You never open the SQL
+   editor or paste anything. It is safe to re-run.
 
-4. **Tell the OS this is your lead store.** `/onboard` records it in `connections.md`. Once
-   it is there, every find-and-enrich skill writes here by default.
+3. **That is it.** `/onboard` records Supabase as your lead store in `connections.md`, and
+   from then on every find-and-enrich skill writes here by default.
 
 ## How the OS uses it
 

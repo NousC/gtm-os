@@ -96,11 +96,14 @@ If they say no, leave row 1 as `not yet connected` and move on. Do not raise it 
 
 Then ask where they want their **lead list** to live, the leads they find and enrich, with the ICP score, the signals, and their tags. The point is that they own it, not a vendor:
 
-> "Where do you want your lead list to live? I recommend your own Supabase Postgres, a database you own. I can wire it in as an MCP and run a ready-made schema, so every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, lands in a table that is yours. You can also point me at Airtable or Google Sheets if that is where you already work, or I can keep it as a CSV to start. Which do you want?"
+> "Where do you want your lead list to live? I recommend your own Supabase Postgres, a database you own. The only thing you do is connect your Supabase MCP server, then I push a ready-made schema into it for you, so every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, lands in a table that is yours. You can also point me at Airtable or Google Sheets if that is where you already work, or I can keep it as a CSV to start. Which do you want?"
 
-- **Supabase (recommended):** walk them through `supabase/README.md`, create a project, add the Supabase MCP (`claude mcp add supabase ...`), and run `supabase/schema.sql` (via the MCP `apply_migration` or the SQL editor). Record it in `connections.md` as the lead store. Offer to save `references/supabase-mcp.md`.
+- **Supabase (recommended), and keep it low-friction.** The user does one thing: connect their Supabase MCP server (`claude mcp add supabase ...`, see `supabase/README.md`). Once it is connected, you do the rest, do not make them touch SQL:
+  1. Ask whether to push the schema into an existing project or a fresh one. Their call.
+  2. Push it yourself with the Supabase MCP `apply_migration`, reading `supabase/schema.sql`. Do not send them to the SQL editor or ask them to paste anything. After it runs, confirm the `lead_lists` and `leads` tables exist (a quick `execute_sql` on `information_schema`).
+  3. Record Supabase as the lead store in `connections.md` (row 9), and offer to save `references/supabase-mcp.md`.
 - **Airtable / Sheets:** record the tool and table in `connections.md` as the lead store; the skills append rows there.
-- **CSV to start:** the skills write to `leads/`. Note they can graduate to Supabase any time.
+- **CSV to start:** the skills write to `leads/`. Note they can graduate to Supabase any time, the schema is ready.
 
 Whatever they pick, write it into `connections.md` so the find-and-enrich skills know where to save.
 
