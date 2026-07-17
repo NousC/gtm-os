@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# doctor.sh — health check for a GTM OS build.
+# doctor.sh: health check for a GTM OS build.
 #
 # Scores the four layers at the file level: is the context filled, is the record wired, is
 # the integration registry real, are there actions beyond the defaults. This is the fast

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# session-start.sh — SessionStart hook.
+# session-start.sh: SessionStart hook.
 #
 # Orients every fresh Claude Code session on the system it is running inside, so it
 # reaches for the context files and the resolved record before it acts, instead of

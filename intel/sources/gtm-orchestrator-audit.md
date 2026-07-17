@@ -1,4 +1,4 @@
-# Source: go-to-market-orchestrator (janskuba) — a teardown
+# Source: go-to-market-orchestrator (janskuba), a teardown
 
 Distilled read of `github.com/janskuba/go-to-market-orchestrator`, done to decide what GTM
 OS should learn from it. Kept here because it is the clearest example of the opposite

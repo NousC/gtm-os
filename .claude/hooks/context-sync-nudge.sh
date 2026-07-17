@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# context-sync-nudge.sh — PostToolUse hook (matcher: Edit|Write).
+# context-sync-nudge.sh: PostToolUse hook (matcher: Edit|Write).
 #
 # When a context file or a playbook gets edited, remind the agent that the change does not
 # reach the score or the other agents until it is synced into the resolved record. This is

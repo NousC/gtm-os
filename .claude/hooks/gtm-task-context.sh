@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# gtm-task-context.sh — UserPromptSubmit hook.
+# gtm-task-context.sh: UserPromptSubmit hook.
 #
 # When the user's prompt looks like a go-to-market task, inject a short reminder to pull
 # the resolved record and read the context files before acting, and to record what was

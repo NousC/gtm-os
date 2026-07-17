@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — optional setup helper for GTM OS.
+# install.sh: optional setup helper for GTM OS.
 #
 # You do not need this to use the kit. The hooks ship pre-wired in .claude/settings.json,
 # so a fresh clone works the moment you open it in Claude Code. This script just makes the

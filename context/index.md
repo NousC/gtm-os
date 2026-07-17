@@ -4,7 +4,7 @@ status: live
 updated: 2026-07-17
 ---
 
-# index.md — the catalog
+# index.md, the catalog
 
 **Read this first. Then drill into the pages you need. Do not read the whole folder.**
 
@@ -55,13 +55,13 @@ record. Only the pattern comes across.
 
 Read the one the task touches. Positioning colours everything, so when in doubt start there.
 
-- [[positioning]] `context/positioning.md` — what you sell and why it matters. The source of truth every other page expands.
-- [[icp]] `context/icp.md` — the company you sell to and the buyer inside it. Every list-build, score, and outreach decision reads this.
-- [[about-me]] `context/about-me.md` — who you are and the story. Colours the voice and the founder-led angles.
-- [[messaging]] `context/messaging.md` — how you frame the problem and the proof behind it.
-- [[voice-and-tone]] `context/voice-and-tone.md` — how you actually talk. The distilled read of the raw samples in `references/voice-samples/`.
-- [[competitors]] `context/competitors.md` — who you are measured against and your wedge.
-- [[pricing]] `context/pricing.md` — what you charge and how.
+- [[positioning]] `context/positioning.md`, what you sell and why it matters. The source of truth every other page expands.
+- [[icp]] `context/icp.md`, the company you sell to and the buyer inside it. Every list-build, score, and outreach decision reads this.
+- [[about-me]] `context/about-me.md`, who you are and the story. Colours the voice and the founder-led angles.
+- [[messaging]] `context/messaging.md`, how you frame the problem and the proof behind it.
+- [[voice-and-tone]] `context/voice-and-tone.md`, how you actually talk. The distilled read of the raw samples in `references/voice-samples/`.
+- [[competitors]] `context/competitors.md`, who you are measured against and your wedge.
+- [[pricing]] `context/pricing.md`, what you charge and how.
 
 ---
 
