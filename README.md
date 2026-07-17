@@ -37,9 +37,9 @@ Architecture first, then the motion. Once both make sense, the folder structure 
 
 ## What ships
 
-Four skills, three hooks, one agent. Kept lean on purpose. You add more as you grow (see `EXPANSIONS.md`).
+Six skills, three hooks, one agent. Kept lean on purpose. You add more as you grow (see `EXPANSIONS.md`).
 
-**Four skills**, the work you call by name:
+**Six skills**, the work you call by name. The first four run the OS itself; the last two enrich accounts:
 
 | Skill | When to run |
 |---|---|
@@ -47,6 +47,8 @@ Four skills, three hooks, one agent. Kept lean on purpose. You add more as you g
 | `/audit` | After a week, then weekly. Scores your build against the four layers and flags context that has gone stale or thin. |
 | `/morning-brief` | Daily. Pulls your accounts, your follow-ups, and what went quiet into one brief so you start the day already oriented. |
 | `/intel` | Weekly. Turns the week's internal meetings, decisions, and saved sources into durable insight in the `intel/` layer. |
+| `/signal-scan` | Before you work a list. Scans each account for buying signals from the website and the record, scores them, and records a signal block plus a copy-fuel brief. The first enrichment pass. Free. |
+| `/content-scan` | After signal-scan, on ICP-qualified leads only. Scrapes a prospect's LinkedIn posts for intent and records the signal plus quoted evidence. The deep Intent layer. Paid (Apify). |
 
 **Three hooks**, the work that runs on its own. They ship pre-wired in `.claude/settings.json`, so a fresh clone has them the moment you open it. No keys, no network. One orients each new session, one reminds the OS to pull the record before a GTM task, one reminds it to sync a context file back into the record after you edit it. Where most GTM kits fire hooks *out* at a dozen tools, ours point every action back *in* at the record. See `.claude/hooks/README.md`.
 
@@ -105,11 +107,12 @@ gtm-os/
 │   ├── meetings/               internal team and co-founder notes, distilled
 │   ├── sources/                external resources worth keeping, distilled
 │   └── patterns.md             recurring themes across meetings, sources, accounts
+├── templates/                  reusable scaffolds: campaigns, email sequences, message frames
 ├── archives/                   old files, do not delete, move here
 ├── scripts/                    install.sh (optional setup) + doctor.sh (health check)
 └── .claude/
     ├── settings.json           wires the hooks, ships ready on clone
-    ├── skills/                 onboard, audit, morning-brief, intel
+    ├── skills/                 onboard, audit, morning-brief, intel, signal-scan, content-scan
     ├── hooks/                  three lifecycle hooks that keep actions pointed at the record
     └── agents/                 gtm-operator, the first real agent (runs the Dream 1000 loop)
 ```

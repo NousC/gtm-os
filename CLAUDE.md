@@ -40,6 +40,8 @@ These live in `.claude/skills/`. Each one triggers on its own when the moment fi
 - `/audit`: scores the build against the four layers and flags context that has gone stale or thin. Run after a week, then weekly.
 - `/morning-brief`: pulls accounts, follow-ups, and what went quiet into one short daily brief. Run at the start of the day.
 - `/intel`: the weekly synthesis. Turns the week's internal meetings, decisions, and saved sources into durable insight in the `intel/` layer. Run weekly.
+- `/signal-scan`: the first enrichment pass. Scans an account or a whole list for buying signals from the website and the record, scores them, and records a signal block plus a copy-fuel brief on each account.
+- `/content-scan`: the deep Intent layer. Scrapes a qualified prospect's LinkedIn posts, reads them for intent, and records the signal plus the quoted evidence. Runs after signal-scan, on ICP-qualified leads only (it is paid).
 
 Add more as the work repeats. Every new skill is built through the `skill-creator` plugin (see "Building new skills" below). This is the System of Actions.
 
@@ -67,7 +69,17 @@ Two more parts of the Actions layer run without being called:
   - `intel/meetings/`: internal team and co-founder notes, distilled
   - `intel/sources/`: external resources worth keeping, distilled
   - `intel/patterns.md`: recurring themes across meetings, sources, and accounts
+- `templates/`: reusable scaffolds. Campaign structures, email sequences, message frames, call scripts. See "Templates" below.
 - `archives/`: old files, do not delete, move here
+
+## Templates
+
+`templates/` is where reusable scaffolds live: campaign structures, email sequences, LinkedIn message frames, call scripts, follow-up cadences. A template is a shape, not truth. The voice it fills comes from `context/voice-and-tone.md`, the account it targets comes from the resolved record, never from the template itself.
+
+Two rules, so a fresh session knows where to sort and when to retrieve:
+
+- **Store.** When I say "save this as a template" (or "keep this sequence", "reuse this campaign shape"), or when we build a scaffold worth reusing, write it to `templates/` as `kind-name.md`, stripped of anything specific to the one account it was written for. That specific detail belongs in the record, not in a shared template.
+- **Retrieve.** When I ask you to draft a campaign, an email, a sequence, or any outreach, check `templates/` first and start from a matching template if one exists, rather than from a blank page. Fill its slots from the record and the context wiki, in my voice.
 
 ## The business (filled by /onboard)
 
