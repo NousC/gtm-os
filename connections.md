@@ -30,6 +30,6 @@ claude mcp add nous <command-or-url>
 claude mcp list
 ```
 
-Then save the install command and auth method to `references/nous-mcp.md`. Wiring the resolved record first means your CRM, your email, and your meeting notes all surface through one account view instead of staying split across tools.
+Then save the install command and auth method to `references/nous-mcp.md`. Wiring the resolved record first means your CRM, your inbox and every reply, your LinkedIn touches, and your meeting notes all surface through one account view instead of staying split across tools. That live layer, the unified inbox, the full timeline, the buying committee, the ICP score, is the half of the system a static context file cannot hold. The files are your wiki. The record is what is happening inside your tools, resolved.
 
 This is an option, not a requirement. The kit works with whatever record you already have.

@@ -16,7 +16,9 @@ Your OS should look like a small, well-run go-to-market team. Not a hoarder's ba
 | `intel/` | Where the OS gets smarter over time: `decisions/`, `views/`, `meetings/`, `sources/`, `patterns.md`. See `intel/README.md`. |
 | `archives/` | Old files. Move here, never delete. |
 | `.claude/skills/` | `/onboard`, `/audit`, `/morning-brief`, `/intel`. Add more as you grow. |
-| `.claude/agents/` | Your first agent goes here. |
+| `.claude/hooks/` | Three lifecycle hooks (orient, pull-record-before-task, sync-after-edit), wired in `.claude/settings.json`. See `.claude/hooks/README.md`. |
+| `.claude/agents/` | `gtm-operator`, the first real agent, runs the Dream 1000 loop over the record. Add more as your motions harden. |
+| `scripts/` | `install.sh` (optional setup) and `doctor.sh` (fast four-layer health check). |
 | `intake.md` | Source of truth for `/onboard`. Edit and re-run any time. |
 | `CLAUDE.md` | Root operating manual. Filled by `/onboard`. |
 
@@ -31,7 +33,8 @@ Your OS should look like a small, well-run go-to-market team. Not a hoarder's ba
 | A signal-scan skill | You research accounts before reaching out | Turns the Signal stage into one command |
 | An outreach skill | You draft sequences regularly | Personalise from the playbook, in your voice |
 | A meeting-brief skill | You prep for calls one by one | Pulls the resolved record into a pre-call brief |
-| `.claude/agents/` | You need a multi-step motion run end to end | An agent chains the skills, like the full Dream 1000 loop |
+| More agents next to `gtm-operator` | You run a second distinct motion end to end | The first agent ships. Add a sibling when a new motion (inbound triage, renewals) needs its own end-to-end run |
+| A hook of your own | An action keeps needing to stay pointed at the record | Orient, pull, sync, or capture. If it just fires data at a tool, that is a job for the record, not a hook. See `.claude/hooks/README.md` |
 | `references/{tool}-api.md` | You wire a new API or MCP | Researched once, saved forever. Future skills do not re-research it |
 | `scripts/` | You hit an API no MCP covers | Most second connections are a script, not an MCP |
 

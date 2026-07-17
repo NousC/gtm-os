@@ -13,7 +13,8 @@ The setup wizard for GTM OS. One run takes a brand-new clone and turns it into a
 2. Gets the user's website and any existing files, scrapes the site, and uses both as raw material.
 3. Runs the intake interview (unless `intake.md` is already filled).
 4. Scaffolds the Day-1 file set from everything gathered.
-5. Shows the user where their stack fits, and offers to wire in the resolved record.
+5. Shows the user where their stack fits, draws the line between their wiki and the resolved record, and offers to wire the record in.
+6. Syncs the ICP and context into the record so it scores real accounts. Filling the files is not the finish line, the ICP living in the record is.
 
 ## Step 1: orient
 
@@ -70,19 +71,34 @@ Do not invent facts. If something is genuinely unknown after the interview and t
 
 On a re-run, some `context/` files may already hold real content. Do not blow them away. Show the user what you propose to change, merge the new material in, and keep anything still true. The point of re-running is to refresh, not to reset.
 
-## Step 5: connect the stack, offer the resolved record
+## Step 5: connect the stack, and draw the line clearly
 
 Once the files are scaffolded, show the user their System of Record and Integration: which tools from Q7 landed in `connections.md` and what is still `not yet connected`.
 
-Then, plainly and without selling, surface the resolved record:
+Then draw the line the whole system turns on, plainly and without selling. There are two halves and they do different jobs:
 
-> "Right now your account facts live across [their tools]. The system works best when those resolve into one record per account, so every skill reads the whole picture in one call. Nous is built to be that record. If you want, I can walk you through wiring it in. It is optional, your OS works either way."
+> "What you just built is your own wiki: who you sell to, how you talk, what you charge. That is yours, it lives in these files, and you own it. The other half is what happens inside your tools, the part a static file can never hold: every person, company, conversation, and reply across your CRM, your inbox, LinkedIn, and your meetings, resolved into one live record per account and scored on your real outcomes. That half is the resolved record, and Nous is built to be it. Your files teach the system who you are. The record teaches it who everyone else is. The two only pay off together: your ICP is just words in a file until the record scores real accounts against it, and the record is just raw activity until your context tells it what any of it means."
+
+Then, if the record is not wired in yet, offer to connect it:
+
+> "Want me to wire in the record? It is one MCP command, and it is what turns your files from a document into a working system. Optional, your OS runs either way, but everything below gets sharper once it is in."
 
 If they say yes, point them at the `claude mcp add nous` steps in `connections.md` and offer to save a `references/nous-mcp.md` guide.
 
-## Step 6: hand off
+## Step 6: sync your wiki into the record (the finish line)
 
-Tell the user what got built, in one short list. Then point them at the next moves: bring a real account and a real task, run `/audit` after a week to see where the context is thin, and run `/morning-brief` to start the day oriented.
+Filling the files is not the finish line. The finish line is your ICP and your context living in the record, so it scores real accounts against them. A context file that never reaches the record is a document, not an operating system.
+
+If the resolved record is connected:
+
+- Sync the ICP and the context you just wrote into the record so the score runs on it. With Nous, that is `get_icp` (file to record) for the ICP and context, and `sync_playbook` for any playbook. Do this now, in this run. This is what the `context-sync-nudge` hook will keep reminding you to do every time you edit a file later.
+- Confirm it landed: pull it back and show the user the record now holds their ICP. That round trip is the proof the system is live.
+
+If the record is not connected yet, say plainly that this is the one step still open, and that the moment they wire it in, syncing the ICP is the first thing to do. Leave them a clear note in `CLAUDE.md` so it is not forgotten.
+
+## Step 7: hand off
+
+Tell the user what got built, in one short list, and whether the ICP made it into the record or is still waiting on the connection. Then point them at the next moves: bring a real account and a real task, run `/audit` after a week to see where the context is thin, and run `/morning-brief` to start the day oriented.
 
 ## The standard for everything you write
 

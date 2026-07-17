@@ -37,16 +37,22 @@ Architecture first, then the motion. Once both make sense, the folder structure 
 
 ## What ships
 
-Four skills, kept lean on purpose. You add more as you grow (see `EXPANSIONS.md`).
+Four skills, three hooks, one agent. Kept lean on purpose. You add more as you grow (see `EXPANSIONS.md`).
+
+**Four skills**, the work you call by name:
 
 | Skill | When to run |
 |---|---|
-| `/onboard` | Day one, right after clone. Asks about you, your ICP, your voice, and your stack, scrapes your site, and scaffolds the `context/` files. Re-run any time after editing `intake.md`. |
+| `/onboard` | Day one, right after clone. Asks about you, your ICP, your voice, and your stack, scrapes your site, scaffolds the `context/` files, and syncs your ICP into the resolved record. Re-run any time after editing `intake.md`. |
 | `/audit` | After a week, then weekly. Scores your build against the four layers and flags context that has gone stale or thin. |
 | `/morning-brief` | Daily. Pulls your accounts, your follow-ups, and what went quiet into one brief so you start the day already oriented. |
 | `/intel` | Weekly. Turns the week's internal meetings, decisions, and saved sources into durable insight in the `intel/` layer. |
 
-Four skills now, still lean. You add more as you grow (see `EXPANSIONS.md`).
+**Three hooks**, the work that runs on its own. They ship pre-wired in `.claude/settings.json`, so a fresh clone has them the moment you open it. No keys, no network. One orients each new session, one reminds the OS to pull the record before a GTM task, one reminds it to sync a context file back into the record after you edit it. Where most GTM kits fire hooks *out* at a dozen tools, ours point every action back *in* at the record. See `.claude/hooks/README.md`.
+
+**One agent**, `gtm-operator`, the first real one. It runs the full Dream 1000 loop over the resolved record instead of over scratch files. Reach for it when the whole motion needs running, not a single step.
+
+A one-shot `scripts/install.sh` makes the hooks executable and checks your setup, and `scripts/doctor.sh` gives you a fast health read on the four layers. Neither is required. The kit works on clone.
 
 ---
 
@@ -71,7 +77,9 @@ Your raw voice samples (real emails, posts, pages, unedited) live in `references
 
 ## The resolved record underneath
 
-The four layers need one resolved record of every account sitting under them, or Record is just ten disconnected tools and your agents guess. **Nous is built to be that record.** It connects your GTM tools, resolves every person and company into one record, structures it into context your agents can read, and serves the whole account in a single call. The kit works without it, and wherever these files say "the resolved record" or "the context graph" that is the job Nous does. `/onboard` will offer to wire it in. It is an option, not a requirement.
+There are two halves to this system and they do different jobs. The `context/` files are your own wiki: who you sell to, how you talk, what you charge. You write them, you own them, they are yours. The other half is what happens inside your tools, the part a static file can never hold: every person, company, conversation, and reply across your CRM, your inbox, LinkedIn, and your meetings, resolved into one live record per account and scored on your real outcomes. That half is the resolved record.
+
+**Nous is built to be that record.** It connects your GTM tools, resolves every person and company into one live record, structures it into context your agents can read, and serves the whole account in a single call. Your files teach the system who you are. The record teaches it who everyone else is. Neither pays off alone: your ICP is words in a file until the record scores real accounts against it, and the record is raw activity until your context says what it means. The kit works without Nous, and wherever these files say "the resolved record" or "the context graph" that is the job it does. `/onboard` will offer to wire it in, then sync your ICP into it. It is an option, not a requirement.
 
 ---
 
@@ -95,9 +103,12 @@ gtm-os/
 │   ├── sources/                external resources worth keeping, distilled
 │   └── patterns.md             recurring themes across meetings, sources, accounts
 ├── archives/                   old files, do not delete, move here
+├── scripts/                    install.sh (optional setup) + doctor.sh (health check)
 └── .claude/
+    ├── settings.json           wires the hooks, ships ready on clone
     ├── skills/                 onboard, audit, morning-brief, intel
-    └── agents/                 your first agent goes here
+    ├── hooks/                  three lifecycle hooks that keep actions pointed at the record
+    └── agents/                 gtm-operator, the first real agent (runs the Dream 1000 loop)
 ```
 
 ---

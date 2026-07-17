@@ -26,6 +26,11 @@ These live in `.claude/skills/`. Each one triggers on its own when the moment fi
 
 Add more as the work repeats. Every new skill is built through the `skill-creator` plugin (see "Building new skills" below). This is the System of Actions.
 
+Two more parts of the Actions layer run without being called:
+
+- **Hooks** (`.claude/hooks/`, wired in `.claude/settings.json`): three lifecycle hooks that keep the OS pointed at the record without you remembering to. One orients each new session, one reminds you to pull the record before a GTM task, one reminds you to sync a context file back into the record after you edit it. They are local, no keys, no network. See `.claude/hooks/README.md`.
+- **The `gtm-operator` agent** (`.claude/agents/gtm-operator.md`): the first real agent, it runs the full Dream 1000 loop (Find, Signal, Score, Personalise, prepare to Send) over the resolved record. Reach for it when the whole loop needs running, not a single step.
+
 ## Where things live
 
 Read the relevant context file before any task that touches it. These are the source of truth.
@@ -56,7 +61,11 @@ Read the relevant context file before any task that touches it. These are the so
 
 ## The resolved record
 
-The four layers hold together because one resolved record sits underneath them. {{If Nous is wired in, say so here and point to its connection in connections.md. If not, this is the layer to add when the System of Record starts to feel scattered.}} Wherever these files say "the resolved record" or "the context graph", that is the live, per-account version of the `context/` files.
+The four layers hold together because one resolved record sits underneath them. {{If Nous is wired in, say so here and point to its connection in connections.md. If not, this is the layer to add when the System of Record starts to feel scattered.}}
+
+The line to keep straight: the `context/` files are your own wiki, the truth about your business that you write and own. The resolved record is the other half, the part a file cannot hold: every person, company, conversation, reply, and signal across the CRM, the inbox, LinkedIn, and the meetings, resolved into one live record per account and scored on real outcomes. The files teach the system who you are. The record teaches it who everyone else is. Wherever these files say "the resolved record" or "the context graph", that is the live, per-account layer, and it is what you reach for before any account task.
+
+Neither half works alone. An edited context file is a document until it is synced into the record (`get_icp`, `sync_playbook`), and the record is raw activity until the context tells it what any of it means. The `context-sync-nudge` hook exists to keep that discipline: sync a changed file the same turn.
 
 ## Memory protocol: how this OS compounds instead of rotting
 
