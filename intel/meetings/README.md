@@ -11,10 +11,10 @@ If your resolved record holds transcripts of internal calls (because a teammate 
 Format:
 
 ```
-# Roadmap sync with Akash
+# Roadmap sync with a co-founder
 
 Date: 2026-06-29
-Present: you, Akash
+Present: you, your co-founder
 
 Talked about: ...
 Decided: ...  (log the real ones in intel/decisions/log.md)
