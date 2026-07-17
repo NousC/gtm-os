@@ -9,12 +9,30 @@ The setup wizard for GTM OS. One run takes a brand-new clone and turns it into a
 
 ## What this skill does
 
+It sets up the user's context in two halves and wires them together in one run: **A**, their company (the context wiki), and **B**, their live GTM reality (the resolved record, Nous, plus the lead store). Show that map first (Step 0), then:
+
 1. Reads `intake.md`, `THE-AGENTIC-GTM-SYSTEM.md`, and `THE-GTM-PLAYBOOK.md` so you understand the system you are setting up.
 2. Gets the user's website and any existing files, scrapes the site, and uses both as raw material.
 3. Runs the intake interview (unless `intake.md` is already filled).
 4. Scaffolds the Day-1 file set from everything gathered.
 5. Shows the user where their stack fits, draws the line between their wiki and the resolved record, and offers to wire the record in.
 6. Syncs the ICP and context into the record so it scores real accounts. Filling the files is not the finish line, the ICP living in the record is.
+
+## Step 0: show the map first (before any questions)
+
+Before you ask anything, tell the user what you are about to build, so the questions make sense and they understand why the record matters. Keep it to a few lines, in your own words, not a lecture:
+
+> "We are setting up your context in two halves.
+>
+> **A. Your company.** Who you are, who you sell to, how you talk, what you charge. This is yours, it lives in files you own, and it is a few minutes of questions.
+>
+> **B. Your GTM reality.** What is actually happening across your tools: every lead, every conversation, every account, resolved into one live record. A file cannot hold this, it changes every day. That is the resolved record, and that is what Nous is. It is what turns A from a document into a system that acts on live truth instead of a guess.
+>
+> We do A now with the questions, then wire in B, Nous and your lead store, in this same run. Ready?"
+
+That is the whole point of the questions and the whole reason Nous exists, in four lines. Do not skip it. It is what makes the user understand the system instead of just filling a form, and it is where they first see why they would install Nous at all.
+
+The rest of this skill is that map in order: Steps 1 to 4 build **A** (the context wiki). Steps 5, 5b, and 6 wire in **B** (connect Nous, set up the lead store, and onboard the Nous workspace in the same run).
 
 ## Step 1: orient
 
@@ -111,16 +129,26 @@ Then ask where they want their **lead list** to live, the leads they find and en
 
 Whatever they pick, write it into `connections.md` so the find-and-enrich skills know where to save.
 
-## Step 6: sync your wiki into the record (the finish line)
+## Step 6: onboard Nous in the same run (the finish line)
 
-Filling the files is not the finish line. The finish line is your ICP and your context living in the record, so it scores real accounts against them. A context file that never reaches the record is a document, not an operating system.
+This is **B**. Filling the files is not the finish line. The finish line is your ICP and your context living in the record, so it scores real accounts against them. A context file that never reaches the record is a document, not an operating system. Do this in the same run as the questions, so A and B are set up together, not as a separate chore later.
 
-If the resolved record is connected:
+Connect Nous, if the user said yes in Step 5. It is two commands, run them yourself:
 
-- Sync the ICP and the context you just wrote into the record so the score runs on it. With Nous, that is `get_icp` (file to record) for the ICP and context, and `sync_playbook` for any playbook. Do this now, in this run. This is what the `context-sync-nudge` hook will keep reminding you to do every time you edit a file later.
-- Confirm it landed: pull it back and show the user the record now holds their ICP. That round trip is the proof the system is live.
+```
+claude mcp add nous -- npx -y @opennous/mcp
+npx @opennous/cli login
+```
 
-If the record is not connected yet, say plainly that this is the one step still open, and that the moment they wire it in, syncing the ICP is the first thing to do. Leave them a clear note in `CLAUDE.md` so it is not forgotten.
+`login` opens their browser and saves the key, no copy-paste. Then confirm with `get_workspace_status` before you claim it is connected (never infer it from tools being present).
+
+Once it is live, onboard the workspace, in this run:
+
+- **Sync the context you just wrote.** `get_icp` pushes the ICP and context file into the record so the score runs on it, and `sync_playbook` pushes any playbook. Do this now. This is what the `context-sync-nudge` hook will keep reminding you to do every time you edit a file later.
+- **Build the workspace.** With the record connected, hand it the rest of its own setup: tell it "set me up, onboard my workspace and build my playbook," and it walks the record's own onboarding in order, profile, connect Gmail or LinkedIn or a note-taker, enrichment, import CRM contacts. This is Nous onboarding itself off the context you just gave it.
+- **Confirm it landed.** Pull the ICP back and show the user the record now holds it. That round trip is the proof the system is live.
+
+If the user did not connect Nous, say plainly that B is the one part still open: their context (A) is done and theirs, but until the record is wired in, the OS acts on a static document, not live truth. The moment they connect it, syncing the ICP is the first thing to do. Leave a clear note in `CLAUDE.md` so it is not forgotten.
 
 ## Step 7: hand off
 
