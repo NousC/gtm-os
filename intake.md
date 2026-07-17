@@ -85,6 +85,16 @@ Every tool that touches go-to-market. CRM, email sender, notetaker, enrichment, 
 
 ---
 
+## Q7b: Where do you want your lead list to live?
+
+The leads you find and enrich need a home you own: with their ICP score, their signals, and your tags. The recommended answer is your own Supabase Postgres, a database you own and can export any time, wired into this OS so the skills read and write it directly. You can also use Airtable or Google Sheets if that is where you already work, or start with a CSV. Which do you want, and if you already have a Supabase project, paste its project ref.
+
+```
+(your answer: supabase / airtable / sheets / csv, plus any project detail)
+```
+
+---
+
 ## Q8: How many clients or accounts are you running, and what is the motion?
 
 Roughly how many accounts or clients you work right now, and how you go to market: inbound, outbound, account-based, partner-led, a mix. This tells the OS which skills and which cadence actually matter for you.

@@ -88,6 +88,18 @@ Then, if the record is not wired in yet, offer to connect it:
 
 If they say yes, point them at the `claude mcp add nous` steps in `connections.md` and offer to save a `references/nous-mcp.md` guide.
 
+### Step 5b: the lead store, where your leads live
+
+Then ask where they want their **lead list** to live, the leads they find and enrich, with the ICP score, the signals, and their tags. The point is that they own it, not a vendor:
+
+> "Where do you want your lead list to live? I recommend your own Supabase Postgres, a database you own. I can wire it in as an MCP and run a ready-made schema, so every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, lands in a table that is yours. You can also point me at Airtable or Google Sheets if that is where you already work, or I can keep it as a CSV to start. Which do you want?"
+
+- **Supabase (recommended):** walk them through `supabase/README.md`, create a project, add the Supabase MCP (`claude mcp add supabase ...`), and run `supabase/schema.sql` (via the MCP `apply_migration` or the SQL editor). Record it in `connections.md` as the lead store. Offer to save `references/supabase-mcp.md`.
+- **Airtable / Sheets:** record the tool and table in `connections.md` as the lead store; the skills append rows there.
+- **CSV to start:** the skills write to `leads/`. Note they can graduate to Supabase any time.
+
+Whatever they pick, write it into `connections.md` so the find-and-enrich skills know where to save.
+
 ## Step 6: sync your wiki into the record (the finish line)
 
 Filling the files is not the finish line. The finish line is your ICP and your context living in the record, so it scores real accounts against them. A context file that never reaches the record is a document, not an operating system.

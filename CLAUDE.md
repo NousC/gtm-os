@@ -40,8 +40,11 @@ These live in `.claude/skills/`. Each one triggers on its own when the moment fi
 - `/audit`: scores the build against the four layers and flags context that has gone stale or thin. Run after a week, then weekly.
 - `/morning-brief`: pulls accounts, follow-ups, and what went quiet into one short daily brief. Run at the start of the day.
 - `/intel`: the weekly synthesis. Turns the week's internal meetings, decisions, and saved sources into durable insight in the `intel/` layer. Run weekly.
-- `/signal-scan`: the first enrichment pass. Scans an account or a whole list for buying signals from the website and the record, scores them, and records a signal block plus a copy-fuel brief on each account.
-- `/content-scan`: the deep Intent layer. Scrapes a qualified prospect's LinkedIn posts, reads them for intent, and records the signal plus the quoted evidence. Runs after signal-scan, on ICP-qualified leads only (it is paid).
+- `/lookalike-builder`: discovers lookalike companies from a few seeds (AI-Ark), ICP-scores them, and saves the company table to the lead store. Hands off to company-people.
+- `/company-people`: finds the decision-maker and a verified email at each company (LinkedIn scrape plus verify), saved to the lead store.
+- `/signal-scan`: the first enrichment pass. Scans an account or a whole list for buying signals from the website and the record, scores them, and writes the signal block, the brief, and the ICP score onto each lead (record and lead store).
+- `/content-scan`: the deep Intent layer. Scrapes a qualified prospect's LinkedIn posts, reads them for intent, and records the signal. Runs after signal-scan, on ICP-qualified leads only (it is paid).
+- `/lead-list`: renders the lead store as a sortable artifact and helps you tag, re-status, and filter it.
 
 Add more as the work repeats. Every new skill is built through the `skill-creator` plugin (see "Building new skills" below). This is the System of Actions.
 
@@ -80,6 +83,18 @@ Two rules, so a fresh session knows where to sort and when to retrieve:
 
 - **Store.** When I say "save this as a template" (or "keep this sequence", "reuse this campaign shape"), or when we build a scaffold worth reusing, write it to `templates/` as `kind-name.md`, stripped of anything specific to the one account it was written for. That specific detail belongs in the record, not in a shared template.
 - **Retrieve.** When I ask you to draft a campaign, an email, a sequence, or any outreach, check `templates/` first and start from a matching template if one exists, rather than from a blank page. Fill its slots from the record and the context wiki, in my voice.
+
+## The lead store
+
+The leads you find and enrich live in a store you own, not a vendor tool you rent. The recommended home is the user's own **Supabase Postgres**, wired in as an MCP, with the schema in `supabase/schema.sql` (adapted from the Nous leads schema). It holds each lead's identity, firmographics, ICP score, the signal blocks from the scan skills, and the user's tags. `/onboard` sets it up (Supabase, or Airtable, Sheets, or a CSV as fallbacks); `connections.md` records which one is configured.
+
+How the skills use it, all reading the configured store from `connections.md`:
+- `lookalike-builder` inserts the discovered companies, `company-people` fills in the decision-maker and verified email.
+- `signal-scan` writes the signals, the brief, and the ICP score onto each lead; `content-scan` adds the intent signal.
+- If the resolved record (Nous) is connected, it computes the ICP score and pushes it into `leads.icp_score`, so the store and the record agree, and the score lives in the user's own database either way.
+- `lead-list` renders the store as an artifact and edits it (tag, re-status, filter).
+
+The lead store is a working pipeline the user owns and exports. It is not the wiki (that is about the business) and not a substitute for the resolved record (that resolves every account and interaction). It is the list you work.
 
 ## The business (filled by /onboard)
 

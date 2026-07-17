@@ -37,22 +37,27 @@ Architecture first, then the motion. Once both make sense, the folder structure 
 
 ## What ships
 
-Six skills, three hooks, one agent. Kept lean on purpose. You add more as you grow (see `EXPANSIONS.md`).
+Nine skills, three hooks, one agent, and a lead store you own. Kept lean on purpose. You add more as you grow (see `EXPANSIONS.md`).
 
-**Six skills**, the work you call by name. The first four run the OS itself; the last two enrich accounts:
+**Nine skills**, the work you call by name. The first four run the OS itself, the next four find and enrich leads, and the last shows you the result:
 
 | Skill | When to run |
 |---|---|
-| `/onboard` | Day one, right after clone. Asks about you, your ICP, your voice, and your stack, scrapes your site, scaffolds the `context/` files, and syncs your ICP into the resolved record. Re-run any time after editing `intake.md`. |
+| `/onboard` | Day one, right after clone. Asks about you, your ICP, your voice, and your stack, scrapes your site, scaffolds the `context/` files, syncs your ICP into the resolved record, and sets up your lead store. Re-run any time after editing `intake.md`. |
 | `/audit` | After a week, then weekly. Scores your build against the four layers and flags context that has gone stale or thin. |
 | `/morning-brief` | Daily. Pulls your accounts, your follow-ups, and what went quiet into one brief so you start the day already oriented. |
 | `/intel` | Weekly. Turns the week's internal meetings, decisions, and saved sources into durable insight in the `intel/` layer. |
-| `/signal-scan` | Before you work a list. Scans each account for buying signals from the website and the record, scores them, and records a signal block plus a copy-fuel brief. The first enrichment pass. Free. |
-| `/content-scan` | After signal-scan, on ICP-qualified leads only. Scrapes a prospect's LinkedIn posts for intent and records the signal plus quoted evidence. The deep Intent layer. Paid (Apify). |
+| `/lookalike-builder` | Paste companies you love. AI-Ark finds the lookalikes, ICP-scores them, and saves the company table to your store. Hands off to company-people. |
+| `/company-people` | Takes the companies and finds the decision-maker plus a verified email at each (LinkedIn scrape + verify), saved to your store. |
+| `/signal-scan` | Scans each account for buying signals from the website and the record, scores them, and writes the signal block, the copy-fuel brief, and the ICP score into your store. Free. |
+| `/content-scan` | After signal-scan, on ICP-qualified leads only. Scrapes a prospect's LinkedIn posts for intent and records the signal. Paid (Apify). |
+| `/lead-list` | See and work your store: renders it as a sortable artifact (ICP score, status, tags, signals) and helps you tag, re-status, and filter. |
 
 **Three hooks**, the work that runs on its own. They ship pre-wired in `.claude/settings.json`, so a fresh clone has them the moment you open it. No keys, no network. One orients each new session, one reminds the OS to pull the record before a GTM task, one reminds it to sync a context file back into the record after you edit it. Where most GTM kits fire hooks *out* at a dozen tools, ours point every action back *in* at the record. See `.claude/hooks/README.md`.
 
 **One agent**, `gtm-operator`, the first real one. It runs the full Dream 1000 loop over the resolved record instead of over scratch files. Reach for it when the whole motion needs running, not a single step.
+
+**A lead store you own.** The find-and-enrich skills need somewhere to put leads. The kit's recommended home is your own **Supabase Postgres**, wired in as an MCP, so every lead, with its ICP score, its signals, and your tags, lands in a table you own and can export any time. `supabase/schema.sql` is the ready-made schema (adapted from the Nous leads schema); `/onboard` sets it up, or you point the skills at Airtable, Sheets, or a CSV instead. See `supabase/README.md`.
 
 A one-shot `scripts/install.sh` makes the hooks executable and checks your setup, and `scripts/doctor.sh` gives you a fast health read on the four layers. Neither is required. The kit works on clone.
 
@@ -108,11 +113,13 @@ gtm-os/
 │   ├── sources/                external resources worth keeping, distilled
 │   └── patterns.md             recurring themes across meetings, sources, accounts
 ├── templates/                  reusable scaffolds: campaigns, email sequences, message frames
+├── supabase/                   your lead store: schema.sql + setup guide (run it in your own Supabase)
 ├── archives/                   old files, do not delete, move here
 ├── scripts/                    install.sh (optional setup) + doctor.sh (health check)
 └── .claude/
     ├── settings.json           wires the hooks, ships ready on clone
-    ├── skills/                 onboard, audit, morning-brief, intel, signal-scan, content-scan
+    ├── skills/                 onboard, audit, morning-brief, intel, lookalike-builder,
+    │                           company-people, signal-scan, content-scan, lead-list
     ├── hooks/                  three lifecycle hooks that keep actions pointed at the record
     └── agents/                 gtm-operator, the first real agent (runs the Dream 1000 loop)
 ```

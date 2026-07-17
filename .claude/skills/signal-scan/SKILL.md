@@ -221,6 +221,28 @@ The **Key data points for copy** are the heart, named variables with exact value
 structured `signal.*` records stay the source of truth for scoring; this note is the source
 of truth for writing.
 
+### 5c. Write the score and signals to your lead store
+
+If the leads live in your own lead store (Supabase, see `supabase/README.md` and
+`connections.md`), the store is the copy you work day to day, so write the results there too:
+set the `icp_score`, put the six signal classes into the `signals` jsonb, and put the brief
+into `signal_brief`. Via the Supabase MCP:
+
+```sql
+update leads
+set icp_score = <0..100>,
+    icp_reason = '<one line, why>',
+    signals = signals || '{"stack":{...},"hiring":{...},"momentum":{...},"friction":{...},"domain":{...}}'::jsonb,
+    signal_brief = '<the markdown brief from 5b>',
+    status = case when <score> >= 70 then 'qualified' else status end
+where lower(domain) = lower('<domain>');   -- or match on lower(email) for a specific person
+```
+
+If Nous is connected it computes the score from the `signal.*` features and you push that
+same number into `leads.icp_score`, so the score in your own database matches the record's.
+If there is no store configured yet, skip this step and note that setting one up (Supabase is
+one MCP add plus one schema run) gives the signals a home you own.
+
 ### 6. Show the readout (chat only, not saved to a file)
 
 Print the structured scan so the operator sees it now:

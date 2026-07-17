@@ -192,6 +192,26 @@ Different jobs, different lengths.
   **Make it comprehensive**, this note is the entire input an outreach skill compiles into
   copy. More detail means better, more personal emails. Never thin it out.
 
+### 5b. Write the intent to your lead store
+
+If the leads live in your own lead store (Supabase, see `supabase/README.md`), add the intent
+signal to that lead's row so the store carries it alongside the company signals from
+signal-scan. Via the Supabase MCP:
+
+```sql
+update leads
+set signals = signals || jsonb_build_object('intent', jsonb_build_object(
+      'detected', '<one tight sentence>', 'score', <0..10>,
+      'angle', '<one line in their words>', 'anchor_post', '<url>')),
+    tags = case when not ('has-intent' = any(tags)) then array_append(tags, 'has-intent') else tags end
+where lower(linkedin_url) = lower('<linkedin_url>')  -- or match on lower(email)
+   or lower(email) = lower('<email>');
+```
+
+The evidence note stays in the resolved record (step 5); the store holds the glanceable
+intent plus a `has-intent` tag so you can filter the list to the warmest leads. If no store is
+configured, skip this and keep the signal on the record only.
+
 ### 6. Report back (chat only)
 
 Per profile: `{name}: {m} on-theme posts, anchor: "{short quote}"` or `{name}: no on-theme

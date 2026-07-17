@@ -15,8 +15,9 @@ Your OS should look like a small, well-run go-to-market team. Not a hoarder's ba
 | `connections.md` | Every tool the OS can reach. |
 | `intel/` | Where the OS gets smarter over time: `decisions/`, `views/`, `meetings/`, `sources/`, `patterns.md`. See `intel/README.md`. |
 | `archives/` | Old files. Move here, never delete. |
-| `.claude/skills/` | `/onboard`, `/audit`, `/morning-brief`, `/intel`, `/signal-scan`, `/content-scan`. Add more as you grow. |
+| `.claude/skills/` | `/onboard`, `/audit`, `/morning-brief`, `/intel`, `/lookalike-builder`, `/company-people`, `/signal-scan`, `/content-scan`, `/lead-list`. Add more as you grow. |
 | `templates/` | Reusable scaffolds (campaigns, email sequences, message frames). The OS files new ones here and reads from here when it drafts. See `templates/README.md`. |
+| `supabase/` | Your lead store: `schema.sql` (the leads table you run in your own Supabase) plus a setup guide. The find-and-enrich skills write here. See `supabase/README.md`. |
 | `.claude/hooks/` | Three lifecycle hooks (orient, pull-record-before-task, sync-after-edit), wired in `.claude/settings.json`. See `.claude/hooks/README.md`. |
 | `.claude/agents/` | `gtm-operator`, the first real agent, runs the Dream 1000 loop over the record. Add more as your motions harden. |
 | `scripts/` | `install.sh` (optional setup) and `doctor.sh` (fast four-layer health check). |
