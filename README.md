@@ -44,7 +44,7 @@ The foundation is **Claude Code**, the runtime you already have. Everything abov
 - **Context wiki (`context/`)** is your business as an LLM wiki: positioning, ICP, voice, pricing. An `index.md` a session reads first, so it opens the two pages a task needs instead of loading everything. This is what stops the agent guessing.
 - **Skills (`.claude/skills/`)** are the work you call by name. **Hooks (`.claude/hooks/`)** run on their own each session. The **agent (`.claude/agents/`)** chains the skills into the full account loop.
 - **Lead store (`supabase/`)** is where your leads live, in a Postgres database you own.
-- **The resolved record (Nous, optional)** is what is true about everyone else: every person, company, and conversation across your tools, resolved into one live account and scored on your outcomes. `/onboard` offers to wire it in and syncs your ICP into it. The kit works without it; it gets sharper with it.
+- **The resolved record (Nous, optional)** is what is true about everyone else: every person, company, and conversation across your tools, resolved into one live account and scored on your outcomes. `/onboard` offers to wire it in and syncs your ICP into it. The kit works without it; it gets sharper with it. You can also use Nous yourself in the cloud, a unified inbox with AI reply agents that turn positive replies into clients, handy if you run outbound for others. See [opennous.cloud](https://opennous.cloud).
 
 ### Supabase manages your leads
 
