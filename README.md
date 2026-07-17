@@ -100,7 +100,7 @@ Everything works on clone. Nothing is required beyond Claude Code.
 | `/content-scan` | Reads a qualified prospect's LinkedIn posts for intent. Paid (Apify), ICP-qualified leads only. |
 | `/lead-list` | Renders your lead store as a sortable page and helps you tag, re-status, and filter it. |
 
-Every skill interviews you the first time you run it, so it comes out personalised to your business, not generic. The kit ships lean on purpose; you add more as you grow (see `EXPANSIONS.md`).
+The find-and-enrich skills interview you the first time you run them and write your answers back into your context, so they come out personalised to your business, not generic, and never ask twice. The rest run on the context wiki you fill at onboarding. The kit ships lean on purpose; you add more as you grow (see `EXPANSIONS.md`).
 
 ---
 

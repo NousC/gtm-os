@@ -38,6 +38,15 @@ plus include plus exclude. It is the only job we reach for this skill to do by d
 `/lookalike-builder`, then paste seeds, e.g. "like anna-agency.com, bravo-collective.com,
 growthlab.io, founders, 1 to 10 people, US", or describe the niche and it builds the spec.
 
+## Make it yours (first run)
+
+Before the first search, fit the target to the user's business. Read `context/index.md`, then `context/icp.md`. Then ask only what the wiki does not already say:
+
+- Three to five dream companies they would love more of. These are the seeds.
+- Their team-size band, and the "looks similar but is not us" shops to exclude (design, SEO, PR, recruiting, whatever is noise for them).
+
+Write the seeds and the exclusions into `context/icp.md`, so the next run starts from them and every find-skill shares the same target.
+
 ## First-run setup (run once as a short interview)
 
 **1. AI-Ark (required), the search.** Check for `AIARK_API_KEY`. Missing: "I find the

@@ -34,6 +34,15 @@ Resolve from the prompt:
 - **Target:** one account or domain, or a lead-list name or id (ask and list the lists if unclear).
 - **Scope:** whole list, or a cap (top 100). Default: whole list.
 
+## Make it yours (first run)
+
+The first time you run this, take a minute to fit it to the user's business, so it never scans against a generic profile. Read `context/index.md`, then `context/icp.md` and `context/positioning.md`. Then ask the user only what those files do not already answer, in a short back and forth, not a form:
+
+- Which of the six signal classes matter most for your offer? A hiring surge, a funding round, a specific tool in their stack?
+- What is a hard disqualifier a good-looking company might still fail on?
+
+Write the answers back into `context/icp.md` (the buyer, the disqualifiers), so the whole OS gets sharper and the user is asked once, not every run. Skip anything the wiki already answers. This is the personalization that makes the score theirs.
+
 ## First-run setup
 
 Try the resolved record's `get_context` tool.

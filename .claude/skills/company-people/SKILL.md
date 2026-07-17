@@ -28,6 +28,10 @@ companies (LinkedIn URLs)  ->  Apify HarvestAPI scrape the /people/ tab
 `/company-people`, paste or point it at a list of company LinkedIn URLs (or domains), or
 hand it the companies from `lookalike-builder`.
 
+## Make it yours (first run)
+
+Read `context/index.md`, then `context/icp.md` for the buyer. Confirm the decision-maker titles with the user once, in their words (Founder and CEO, or Head of Growth, or something specific to their motion), since that title list is exactly what the scrape filters on. Write the confirmed titles into `context/icp.md` so the next run and the other find-skills use the same buyer.
+
 ## First-run setup (run once as a short interview)
 
 **1. Apify (required), the scrape.** Check `APIFY_TOKEN`. The actor is

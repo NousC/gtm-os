@@ -38,6 +38,15 @@ Resolve from the prompt:
 - **Theme** (optional): a specific topic to hunt for. If omitted, scan for the themes that map to your offer (from the ICP wiki and the GTM profile).
 - **Count:** posts per profile (default 20).
 
+## Make it yours (first run)
+
+Before the first scrape, fit the intent lens to the user's offer. Read `context/index.md`, then `context/positioning.md` and `context/icp.md` for the problem they solve. Then confirm with the user, once:
+
+- The two or three themes that count as real intent for them (the problems the offer touches, in their words).
+- Any stance or topic that looks on-theme but is not a buying signal for them.
+
+Save the themes into `context/messaging.md` (or `context/icp.md`), so this and every run reads the same lens. Skip anything the wiki already answers.
+
 ## First-run setup
 
 - **The resolved record:** try `get_context`. Not connected, set up the MCP (see
