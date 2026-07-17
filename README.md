@@ -6,6 +6,54 @@ Built for the people who run go-to-market: founders doing their own outbound, GT
 
 ---
 
+## Infrastructure
+
+One clone turns Claude Code into a full go-to-market stack. Your business sits in a wiki it reads first, the skills do the work, the hooks keep every action pointed at the truth, an agent runs the whole loop, and your leads live in a database you own. Underneath it all, optionally, the resolved record.
+
+```
+┌────────────────────────────────────────────────────────────┐
+│ CLAUDE CODE           the runtime you already have         │
+│                                                            │
+│   CONTEXT WIKI   context/                                  │
+│     your business as an LLM wiki. an index you read        │
+│     first, then compiled pages: positioning, ICP,          │
+│     voice, pricing. this is what stops it guessing.        │
+│                         │                                  │
+│   SKILLS  .claude/skills/    HOOKS  .claude/hooks/         │
+│     9 you call by name.        3 run on their own.         │
+│     find, enrich, score.       orient, pull, sync.         │
+│                         │                                  │
+│   AGENT  .claude/agents/                                   │
+│     gtm-operator runs the whole account loop.              │
+│                         │                                  │
+│   LEAD STORE   supabase/                                   │
+│     your own Postgres. every lead, its ICP score,          │
+│     its signals, your tags. yours to keep, export.         │
+└────────────────────────────────────────────────────────────┘
+                          │
+           underneath it all, read and written
+                          ▼
+   THE RESOLVED RECORD  ·  Nous  (optional)
+     every person, company, and conversation across
+     your tools, resolved into one live account,
+     scored on your real outcomes.
+```
+
+The foundation is **Claude Code**, the runtime you already have. Everything above is this repo.
+
+- **Context wiki (`context/`)** is your business as an LLM wiki: positioning, ICP, voice, pricing. An `index.md` a session reads first, so it opens the two pages a task needs instead of loading everything. This is what stops the agent guessing.
+- **Skills (`.claude/skills/`)** are the work you call by name. **Hooks (`.claude/hooks/`)** run on their own each session. The **agent (`.claude/agents/`)** chains the skills into the full account loop.
+- **Lead store (`supabase/`)** is where your leads live, in a Postgres database you own.
+- **The resolved record (Nous, optional)** is what is true about everyone else: every person, company, and conversation across your tools, resolved into one live account and scored on your outcomes. `/onboard` offers to wire it in and syncs your ICP into it. The kit works without it; it gets sharper with it.
+
+### Supabase manages your leads
+
+Your lead list should live somewhere you own, not locked in a vendor tool. GTM OS keeps it in **your own Supabase Postgres**. You connect your Supabase MCP server, and the agent pushes the ready-made schema (`supabase/schema.sql`) straight into your database, into an existing project or a fresh one, your call. From then on every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, lands in a table you own and can export any time.
+
+Run `/lead-list` and the OS renders that table as a shareable page you can open and sort by score, status, or tag. Your pipeline, hosted from your own data.
+
+---
+
 ## Quickstart
 
 ```bash
@@ -35,30 +83,6 @@ Then, inside Claude Code:
 | **A lead store you own** | your own Supabase Postgres, holding every lead with its ICP score, signals, and tags |
 
 Everything works on clone. Nothing is required beyond Claude Code.
-
----
-
-## How it is built
-
-Three layers, bottom to top:
-
-**1. The foundation, Claude Code.** The runtime you already have. GTM OS is what you drop into it.
-
-**2. The OS, this repo.** The infrastructure that makes Claude act like it knows your business:
-
-- **The context wiki (`context/`)** is where your business lives: positioning, ICP, messaging, voice, competitors, pricing. It is an LLM wiki, not a folder of files, compiled pages with an `index.md` a session reads first, so it opens the two pages a task needs instead of loading everything. This is what stops the agent guessing.
-- **The skills (`.claude/skills/`)** are the work, called by name. Find and enrich leads, scan for signals, brief a call, audit the build.
-- **The hooks (`.claude/hooks/`)** run on their own, keeping every action pointed at the truth: orient each session, pull the record before a GTM task, sync a context change back in.
-- **The agent (`.claude/agents/`)** chains the skills into the full loop when you want it run end to end.
-- **The lead store (`supabase/`)** is where your leads live, in a database you own.
-
-**3. The resolved record, Nous (optional).** Your context wiki is what is true about *you*. The resolved record is what is true about *everyone else*: every person, company, conversation, and reply across your CRM, inbox, LinkedIn, and meetings, resolved into one live account and scored on your real outcomes. **Nous** is built to be that record. `/onboard` offers to wire it in and syncs your ICP into it, so your files score real accounts. The kit works without it; it gets sharper with it.
-
-### Supabase manages your leads
-
-Your lead list should live somewhere you own, not locked in a vendor tool. GTM OS keeps it in **your own Supabase Postgres**. You connect your Supabase MCP server, and the agent pushes the ready-made schema (`supabase/schema.sql`) straight into your database, into an existing project or a fresh one, your call. From then on every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, lands in a table you own and can export any time.
-
-Run `/lead-list` and the OS renders that table as a shareable page you can open and sort by score, status, or tag. Your pipeline, hosted from your own data.
 
 ---
 
