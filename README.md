@@ -1,128 +1,100 @@
-# GTM OS: a go-to-market operating system for Claude Code
+# GTM OS
 
-A free, open starter kit that turns Claude Code into your go-to-market operating system. You clone it, run `/onboard` once, and Claude learns your business, your ICP, your voice, and your stack. From then on every GTM task it does for you (research an account, build a list, draft a sequence, prep a call, write a brief) runs on your real context instead of generic guesses.
+**A go-to-market operating system for Claude Code.** Clone it, run `/onboard` once, and Claude learns your business, your ICP, your voice, and your stack. From then on every GTM task it runs (find accounts, score a list, scan for signals, draft a sequence, prep a call) runs on your real context instead of generic guesses.
 
-It is built for the people who run go-to-market: founders doing their own outbound, GTM engineers, RevOps leads, and agencies running many client stacks.
-
----
-
-## The idea in one line
-
-> Your agents are only as good as the context they can reach. GTM OS gives them one place to reach it.
-
-Most GTM stacks scatter the truth about an account across ten tools, so the agent guesses. This kit puts your context in writing, connects it to a live record of every account, and lets every skill act on the whole picture.
+Built for the people who run go-to-market: founders doing their own outbound, GTM engineers, RevOps leads, and agencies running many client stacks. Free and open, MIT.
 
 ---
 
-## The two things to read first
+## Quickstart
 
-Two reference files sit at the root. Read them before you do anything else. They are the knowledge layer, not config.
+```bash
+git clone https://github.com/NousC/gtm-os.git
+cd gtm-os
+claude          # open the folder in Claude Code
+```
 
-- **`THE-AGENTIC-GTM-SYSTEM.md`**: the architecture. Four layers (Actions, Context, Record, Integration) and the one resolved record underneath them.
-- **`THE-GTM-PLAYBOOK.md`**: the motion. The end-to-end account-based loop that runs on top: Find, Signal, Score, Personalise, Send, Reply, Learn.
+Then, inside Claude Code:
 
-Architecture first, then the motion. Once both make sense, the folder structure stops looking like folders and starts looking like a system.
+```
+/onboard
+```
 
----
-
-## Quick start
-
-1. **Clone the repo** into a working folder.
-2. **Open it in Claude Code** and run `/onboard`. Have your website ready. If you use Wispr Flow or any dictation, just talk through the answers. If you already have positioning docs, an ICP, a deck, or old emails, point Claude at them. The more raw material you give it, the better the result. Takes about 15 to 20 minutes.
-3. **`/onboard` scaffolds your context.** It scrapes your site, merges that with what you said, and fills the `context/` files and `connections.md`. You review and correct.
-4. **Connect your stack.** `/onboard` shows where your tools slot into the System of Record and Integration, and offers to wire in the resolved record underneath (see below).
-5. **Use it.** Bring real accounts and real tasks. Run `/audit` after a week to see where the context is thin or stale. Run `/morning-brief` to get the day pulled together for you.
+`/onboard` interviews you for about fifteen minutes (talk it through with dictation if you like), scrapes your website, and fills your context. Have your site URL ready, and point it at anything you already have (old positioning, an ICP sheet, a few real emails). That is the whole setup. Bring a real account and start working.
 
 ---
 
-## What ships
+## What you get
 
-Nine skills, three hooks, one agent, and a lead store you own. Kept lean on purpose. You add more as you grow (see `EXPANSIONS.md`).
-
-**Nine skills**, the work you call by name. The first four run the OS itself, the next four find and enrich leads, and the last shows you the result:
-
-| Skill | When to run |
+| | |
 |---|---|
-| `/onboard` | Day one, right after clone. Asks about you, your ICP, your voice, and your stack, scrapes your site, scaffolds the `context/` files, syncs your ICP into the resolved record, and sets up your lead store. Re-run any time after editing `intake.md`. |
-| `/audit` | After a week, then weekly. Scores your build against the four layers and flags context that has gone stale or thin. |
-| `/morning-brief` | Daily. Pulls your accounts, your follow-ups, and what went quiet into one brief so you start the day already oriented. |
-| `/intel` | Weekly. Turns the week's internal meetings, decisions, and saved sources into durable insight in the `intel/` layer. |
-| `/lookalike-builder` | Paste companies you love. AI-Ark finds the lookalikes, ICP-scores them, and saves the company table to your store. Hands off to company-people. |
-| `/company-people` | Takes the companies and finds the decision-maker plus a verified email at each (LinkedIn scrape + verify), saved to your store. |
-| `/signal-scan` | Scans each account for buying signals from the website and the record, scores them, and writes the signal block, the copy-fuel brief, and the ICP score into your store. Free. |
-| `/content-scan` | After signal-scan, on ICP-qualified leads only. Scrapes a prospect's LinkedIn posts for intent and records the signal. Paid (Apify). |
-| `/lead-list` | See and work your store: renders it as a sortable artifact (ICP score, status, tags, signals) and helps you tag, re-status, and filter. |
+| **9 GTM skills** | onboard, audit, morning-brief, intel, lookalike-builder, company-people, signal-scan, content-scan, lead-list |
+| **3 lifecycle hooks** | pre-wired, no keys: orient each session, pull the record before a task, sync context after an edit |
+| **1 agent** | `gtm-operator`, runs the full account-based loop end to end |
+| **A context wiki** | your business as an LLM wiki: compiled pages, an index read first, cross-linked |
+| **A lead store you own** | your own Supabase Postgres, holding every lead with its ICP score, signals, and tags |
 
-**Three hooks**, the work that runs on its own. They ship pre-wired in `.claude/settings.json`, so a fresh clone has them the moment you open it. No keys, no network. One orients each new session, one reminds the OS to pull the record before a GTM task, one reminds it to sync a context file back into the record after you edit it. Where most GTM kits fire hooks *out* at a dozen tools, ours point every action back *in* at the record. See `.claude/hooks/README.md`.
-
-**One agent**, `gtm-operator`, the first real one. It runs the full Dream 1000 loop over the resolved record instead of over scratch files. Reach for it when the whole motion needs running, not a single step.
-
-**A lead store you own.** The find-and-enrich skills need somewhere to put leads. The kit's recommended home is your own **Supabase Postgres**, wired in as an MCP, so every lead, with its ICP score, its signals, and your tags, lands in a table you own and can export any time. `supabase/schema.sql` is the ready-made schema (adapted from the Nous leads schema); `/onboard` sets it up, or you point the skills at Airtable, Sheets, or a CSV instead. See `supabase/README.md`.
-
-A one-shot `scripts/install.sh` makes the hooks executable and checks your setup, and `scripts/doctor.sh` gives you a fast health read on the four layers. Neither is required. The kit works on clone.
+Everything works on clone. Nothing is required beyond Claude Code.
 
 ---
 
-## The context wiki
+## How it is built
 
-The heart of the kit, and it is a wiki, not a folder of files. It runs on the LLM wiki pattern: compiled pages with an index you read first, so a fresh session opens the two pages a task needs instead of loading everything. `/onboard` fills it from your answers and your website.
+Three layers, bottom to top:
 
-```
-context/
-├── index.md           the catalog. read first. one line per page.
-├── about-me.md        you, your story, what you have built
-├── positioning.md     what you sell and why it matters
-├── icp.md             the company profile and the buyer inside it
-├── messaging.md       how you frame the problem and the proof
-├── voice-and-tone.md  how you actually talk, with examples in references/
-├── competitors.md     who you are measured against and your wedge
-└── pricing.md         what you charge and how
-```
+**1. The foundation, Claude Code.** The runtime you already have. GTM OS is what you drop into it.
 
-Three layers sit under it. **Sources** (`references/`, and anything you bring: voice samples, a deck, a pricing sheet) are the raw material, and you own them. **The wiki** (`context/`) is compiled pages, one claim each, and the OS owns them. **The schema** (`CLAUDE.md`) is the rules. Every page carries frontmatter and a `**Hubs:**` footer that links the pages it builds on, so the wiki is queryable and cross-linked, and `/audit` can lint it for stale claims, orphans, and pages with no source behind them.
+**2. The OS, this repo.** The infrastructure that makes Claude act like it knows your business:
 
-One rule holds it together: **the wiki is about you, the record is about them.** Your positioning, ICP, and voice live in these files. Accounts, people, and signals live in the resolved record. An account fact never goes in a context page, and positioning never goes in the record except through the sync tools. Your raw voice samples (real emails, posts, pages, unedited) live in `references/voice-samples/`, and `voice-and-tone.md` is the distilled read of them.
+- **The context wiki (`context/`)** is where your business lives: positioning, ICP, messaging, voice, competitors, pricing. It is an LLM wiki, not a folder of files, compiled pages with an `index.md` a session reads first, so it opens the two pages a task needs instead of loading everything. This is what stops the agent guessing.
+- **The skills (`.claude/skills/`)** are the work, called by name. Find and enrich leads, scan for signals, brief a call, audit the build.
+- **The hooks (`.claude/hooks/`)** run on their own, keeping every action pointed at the truth: orient each session, pull the record before a GTM task, sync a context change back in.
+- **The agent (`.claude/agents/`)** chains the skills into the full loop when you want it run end to end.
+- **The lead store (`supabase/`)** is where your leads live, in a database you own.
 
----
+**3. The resolved record, Nous (optional).** Your context wiki is what is true about *you*. The resolved record is what is true about *everyone else*: every person, company, conversation, and reply across your CRM, inbox, LinkedIn, and meetings, resolved into one live account and scored on your real outcomes. **Nous** is built to be that record. `/onboard` offers to wire it in and syncs your ICP into it, so your files score real accounts. The kit works without it; it gets sharper with it.
 
-## The resolved record underneath
+### Supabase manages your leads
 
-There are two halves to this system and they do different jobs. The `context/` files are your own wiki: who you sell to, how you talk, what you charge. You write them, you own them, they are yours. The other half is what happens inside your tools, the part a static file can never hold: every person, company, conversation, and reply across your CRM, your inbox, LinkedIn, and your meetings, resolved into one live record per account and scored on your real outcomes. That half is the resolved record.
+Your lead list should live somewhere you own, not locked in a vendor tool. GTM OS keeps it in **your own Supabase Postgres**. You connect your Supabase MCP server, and the agent pushes the ready-made schema (`supabase/schema.sql`) straight into your database, into an existing project or a fresh one, your call. From then on every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, lands in a table you own and can export any time.
 
-**Nous is built to be that record.** It connects your GTM tools, resolves every person and company into one live record, structures it into context your agents can read, and serves the whole account in a single call. Your files teach the system who you are. The record teaches it who everyone else is. Neither pays off alone: your ICP is words in a file until the record scores real accounts against it, and the record is raw activity until your context says what it means. The kit works without Nous, and wherever these files say "the resolved record" or "the context graph" that is the job it does. `/onboard` will offer to wire it in, then sync your ICP into it. It is an option, not a requirement.
+Run `/lead-list` and the OS renders that table as a shareable page you can open and sort by score, status, or tag. Your pipeline, hosted from your own data.
 
 ---
 
-## Repo layout
+## Skills
 
-```
-gtm-os/
-├── README.md
-├── CLAUDE.md                   your operating manual, filled by /onboard
-├── intake.md                   the source of truth for /onboard, edit and re-run any time
-├── THE-AGENTIC-GTM-SYSTEM.md   reference: the architecture
-├── THE-GTM-PLAYBOOK.md         reference: the motion
-├── EXPANSIONS.md               what to add as you grow
-├── connections.md              registry of every tool your OS can reach
-├── context/                    the context wiki: index.md (read first) + the pages that make it yours
-├── references/                 voice samples and any docs you bring
-├── intel/                      where the OS gets smarter over time
-│   ├── decisions/log.md        append-only record of what you decided and why
-│   ├── views/                  how a belief or number drifted over time, dated
-│   ├── meetings/               internal team and co-founder notes, distilled
-│   ├── sources/                external resources worth keeping, distilled
-│   └── patterns.md             recurring themes across meetings, sources, accounts
-├── templates/                  reusable scaffolds: campaigns, email sequences, message frames
-├── supabase/                   your lead store: schema.sql + setup guide (run it in your own Supabase)
-├── archives/                   old files, do not delete, move here
-├── scripts/                    install.sh (optional setup) + doctor.sh (health check)
-└── .claude/
-    ├── settings.json           wires the hooks, ships ready on clone
-    ├── skills/                 onboard, audit, morning-brief, intel, lookalike-builder,
-    │                           company-people, signal-scan, content-scan, lead-list
-    ├── hooks/                  three lifecycle hooks that keep actions pointed at the record
-    └── agents/                 gtm-operator, the first real agent (runs the Dream 1000 loop)
-```
+| Skill | What it does |
+|---|---|
+| `/onboard` | Learns your business, fills the context wiki, sets up your lead store. Re-run any time. |
+| `/audit` | Scores your build and flags context that has gone stale or thin. Weekly. |
+| `/morning-brief` | Pulls your accounts, follow-ups, and what went quiet into one daily brief. |
+| `/intel` | Turns the week's meetings, decisions, and sources into durable insight. Weekly. |
+| `/lookalike-builder` | Paste companies you love. Finds the lookalikes, ICP-scores them, saves the company table to your store. |
+| `/company-people` | Finds the decision-maker and a verified email at each company, saved to your store. |
+| `/signal-scan` | Scans each account for buying signals, scores them, and writes the score, signals, and a copy-fuel brief to your store. Free. |
+| `/content-scan` | Reads a qualified prospect's LinkedIn posts for intent. Paid (Apify), ICP-qualified leads only. |
+| `/lead-list` | Renders your lead store as a sortable page and helps you tag, re-status, and filter it. |
+
+Every skill interviews you the first time you run it, so it comes out personalised to your business, not generic. The kit ships lean on purpose; you add more as you grow (see `EXPANSIONS.md`).
+
+---
+
+## FAQ
+
+**Do I need to know how to code?** No. You run everything by talking to Claude Code in plain language. The only setup is `/onboard`.
+
+**Do I need Nous?** No. The kit works on clone. Nous is the optional resolved-record layer underneath; `/onboard` offers to wire it in and everything gets sharper once it is.
+
+**Where do my leads live?** In your own Supabase Postgres, or Airtable, Sheets, or a CSV if you prefer. You own the data either way. Supabase is the recommended path because it renders as a live lead list and holds the ICP score and signals per lead.
+
+**How do I set up Supabase?** Connect your Supabase MCP server, then tell the agent to push `supabase/schema.sql` into your database. It handles the schema, into an existing project or a fresh one. See `supabase/README.md`.
+
+**Do the paid skills cost money?** Some enrichment skills call paid APIs (Apify, AI-Ark, NeverBounce). Each one previews the cost and waits for your yes before spending. The core OS and `signal-scan` are free.
+
+**Is my data private?** Yes. Your business context lives in local files in your repo. Your leads live in a database you own. Nothing is sent anywhere you did not connect.
+
+**Can I add my own skills?** Yes. Every skill is built through Claude Code's `skill-creator`, and `EXPANSIONS.md` shows what to add as you grow.
 
 ---
 
