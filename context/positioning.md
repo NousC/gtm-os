@@ -1,3 +1,11 @@
+---
+type: context
+status: template
+updated: 2026-07-17
+about: [positioning, offer]
+sources: []
+---
+
 # Positioning
 
 > What you sell and why it matters. The single source of truth for how the OS describes your offer. Filled by `/onboard` from Q2, Q4, and your website. When any other file drifts from this, this one wins.
@@ -29,3 +37,7 @@
 ## What this is not
 
 (The thing people mistake you for. Naming it sharpens the real positioning.)
+
+---
+
+**Hubs:** [[index]] · [[icp]] · [[messaging]]

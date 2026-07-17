@@ -1,3 +1,11 @@
+---
+type: context
+status: template
+updated: 2026-07-17
+about: [competitors, wedge]
+sources: []
+---
+
 # Competitors
 
 > Who a buyer measures you against, and the one thing you do that they do not. Filled by `/onboard` from Q9 and your website. Reads alongside `positioning.md`.
@@ -17,3 +25,7 @@
 ## How to talk about them
 
 (Your stance when a competitor comes up: what you acknowledge honestly, and where you steer the conversation. Never trash them. Reframe to your wedge.)
+
+---
+
+**Hubs:** [[index]] · [[positioning]]

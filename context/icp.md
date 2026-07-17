@@ -1,3 +1,11 @@
+---
+type: context
+status: template
+updated: 2026-07-17
+about: [icp, buyer]
+sources: []
+---
+
 # ICP: Ideal Customer Profile
 
 > The company you sell to and the buyer inside it. Two layers, both matter. Filled by `/onboard` from Q3. This is what every list-build, score, and outreach decision reads.
@@ -23,3 +31,7 @@
 ## Tiering
 
 (How you rank fit. A simple version: top-tier accounts you work by hand, mid-tier you automate, the rest you drop. Set the line where it makes sense for you.)
+
+---
+
+**Hubs:** [[index]] · [[positioning]] · [[messaging]]

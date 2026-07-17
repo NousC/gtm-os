@@ -56,12 +56,13 @@ A one-shot `scripts/install.sh` makes the hooks executable and checks your setup
 
 ---
 
-## The context files
+## The context wiki
 
-The heart of the kit. `/onboard` fills these from your answers and your website. They are what every skill reads.
+The heart of the kit, and it is a wiki, not a folder of files. It runs on the LLM wiki pattern: compiled pages with an index you read first, so a fresh session opens the two pages a task needs instead of loading everything. `/onboard` fills it from your answers and your website.
 
 ```
 context/
+├── index.md           the catalog. read first. one line per page.
 ├── about-me.md        you, your story, what you have built
 ├── positioning.md     what you sell and why it matters
 ├── icp.md             the company profile and the buyer inside it
@@ -71,7 +72,9 @@ context/
 └── pricing.md         what you charge and how
 ```
 
-Your raw voice samples (real emails, posts, pages, unedited) live in `references/voice-samples/`. `voice-and-tone.md` is the distilled read of those samples.
+Three layers sit under it. **Sources** (`references/`, and anything you bring: voice samples, a deck, a pricing sheet) are the raw material, and you own them. **The wiki** (`context/`) is compiled pages, one claim each, and the OS owns them. **The schema** (`CLAUDE.md`) is the rules. Every page carries frontmatter and a `**Hubs:**` footer that links the pages it builds on, so the wiki is queryable and cross-linked, and `/audit` can lint it for stale claims, orphans, and pages with no source behind them.
+
+One rule holds it together: **the wiki is about you, the record is about them.** Your positioning, ICP, and voice live in these files. Accounts, people, and signals live in the resolved record. An account fact never goes in a context page, and positioning never goes in the record except through the sync tools. Your raw voice samples (real emails, posts, pages, unedited) live in `references/voice-samples/`, and `voice-and-tone.md` is the distilled read of them.
 
 ---
 
@@ -94,7 +97,7 @@ gtm-os/
 ├── THE-GTM-PLAYBOOK.md         reference: the motion
 ├── EXPANSIONS.md               what to add as you grow
 ├── connections.md              registry of every tool your OS can reach
-├── context/                    the files that make it yours, filled by /onboard
+├── context/                    the context wiki: index.md (read first) + the pages that make it yours
 ├── references/                 voice samples and any docs you bring
 ├── intel/                      where the OS gets smarter over time
 │   ├── decisions/log.md        append-only record of what you decided and why

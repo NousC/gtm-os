@@ -44,6 +44,8 @@ Actions are last to build. An agent that runs on top of empty context just produ
 
 This is the most important layer in the kit, and the one `/onboard` spends the most time filling. Everything an agent writes or decides reads from here.
 
+It is built as an LLM wiki, not a folder of files: compiled pages, each carrying frontmatter and links, with `context/index.md` as the catalog a session reads first so it opens the two pages a task needs instead of loading all of them. Sources (the raw material you bring) compile into the wiki (`context/`), and the schema (`CLAUDE.md`) holds the rules. See "The context wiki" in `CLAUDE.md`.
+
 > **In place when:** a brand-new Claude session answers "who do we sell to and how do we talk about it" correctly, with no browsing and no paste.
 
 The context graph is the live version of this. Your written files cover your own business. The graph holds the same kind of structured truth for every account you work: people, companies, signals, deals, activity, employment, the buying committee. The files teach the system who you are. The graph teaches it who everyone else is.

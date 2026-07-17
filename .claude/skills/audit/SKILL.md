@@ -29,6 +29,18 @@ Context rots. For each `context/` file, check two things:
 
 List what looks stale or thin, with the specific file and the specific reason.
 
+## Pass 3: wiki lint
+
+The context layer is an LLM wiki, so hold it to a wiki's standard. Check, and report what fails (do not silently fix):
+
+- **Frontmatter.** Does every `context/` page carry frontmatter with `status`, `updated`, `about`, and `sources`? Pages still marked `status: template` on a live setup were never filled. Flag them.
+- **Index coverage.** Read `context/index.md`. Is every page in `context/` listed in it, and does every line in the index point at a page that exists? A page missing from the index is invisible to every later task. A line pointing at a deleted page is a broken link.
+- **Orphans and missing hubs.** Does each page have a `**Hubs:**` footer, and do those links point at real pages? A page nothing links to and that links to nothing is an orphan.
+- **Unsourced claims.** A page that asserts specifics (numbers, named proof, a hard positioning line) with an empty `sources` list is an opinion wearing a fact's clothes. Flag the biggest offenders, not every bullet.
+- **Hard-split violations.** Scan for account facts that leaked into the wiki: a named prospect, a specific company's status, "Sarah is the champion". Those belong in the resolved record, not a file. Flag any you find, this is the one rule that quietly corrupts the wiki.
+
+Report the wiki issues alongside the freshness ones. A broken index or a template page on a live setup outranks a stylistic nit.
+
 ## Output: the top three fixes
 
 Do not list twenty things. Rank by leverage and give the user exactly three moves, most impactful first. For each: what to do, which file or layer it touches, and why it matters most right now. A thin `icp.md` on someone running outbound beats a missing skill every time. Weight the fixes to what the user actually does (their motion from `CLAUDE.md`).

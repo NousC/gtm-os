@@ -10,7 +10,7 @@ Your OS should look like a small, well-run go-to-market team. Not a hoarder's ba
 
 | Folder / file | Purpose |
 |---|---|
-| `context/` | The files that make the OS yours. Filled by `/onboard`. |
+| `context/` | The context wiki: `index.md` (the read-first catalog) plus the pages that make the OS yours. Filled by `/onboard`. Every page carries frontmatter and a `**Hubs:**` footer. |
 | `references/` | Voice samples, docs you bring, and tool API guides as you wire them. |
 | `connections.md` | Every tool the OS can reach. |
 | `intel/` | Where the OS gets smarter over time: `decisions/`, `views/`, `meetings/`, `sources/`, `patterns.md`. See `intel/README.md`. |
@@ -28,7 +28,7 @@ Your OS should look like a small, well-run go-to-market team. Not a hoarder's ba
 
 | Add | When | Why |
 |---|---|---|
-| `context/icp/` (a folder) | Your ICP splits into several distinct segments | When one `icp.md` stops holding it, give each segment its own file |
+| `context/icp/` (a folder) | Your ICP splits into several distinct segments | The wiki's compounding pattern: promote the page to a folder, `icp.md` stays the spine every skill reads, dated `MMYY-topic.md` files hold the depth. Update `context/index.md` when you do |
 | A list-building skill | You build lead lists by hand more than twice | Find and Score from the playbook, made repeatable |
 | A signal-scan skill | You research accounts before reaching out | Turns the Signal stage into one command |
 | An outreach skill | You draft sequences regularly | Personalise from the playbook, in your voice |

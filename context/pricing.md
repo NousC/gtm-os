@@ -1,3 +1,11 @@
+---
+type: context
+status: template
+updated: 2026-07-17
+about: [pricing]
+sources: []
+---
+
 # Pricing
 
 > What you charge and how. Filled by `/onboard` from Q10 and your website. Even a rough or moving model belongs here, so the OS never has to guess about money.
@@ -19,3 +27,7 @@
 ## How you talk about price
 
 (Your stance when price comes up: when you anchor, what you bundle, where you hold firm, where there is room. The honest version for internal use.)
+
+---
+
+**Hubs:** [[index]] · [[icp]]

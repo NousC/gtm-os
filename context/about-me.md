@@ -1,3 +1,11 @@
+---
+type: context
+status: template
+updated: 2026-07-17
+about: [founder, story]
+sources: []
+---
+
 # About Me
 
 > Who you are and the story behind this. Filled by `/onboard` from Q1 and your website. This gives every other file its human context.
@@ -17,3 +25,7 @@
 ## What I am best at, and what I am not
 
 (Where you are strong, where you need leverage. This tells the OS where to push and where to do the work for you.)
+
+---
+
+**Hubs:** [[index]] · [[positioning]]

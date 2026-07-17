@@ -59,10 +59,13 @@ The questions map to files like this:
 
 ## Step 4: scaffold the Day-1 file set
 
-Fill every `context/` file by merging the interview answers with the website scrape. Use the existing file templates as the structure. Rules:
+Fill every `context/` file by merging the interview answers with the website scrape. Use the existing file templates as the structure. You are not filling a folder of files, you are compiling a wiki. Read `context/index.md` first so you build to its conventions. Rules:
 
 - The user's own words win over the scrape. Use the scrape to fill gaps and add detail, never to overwrite what they said.
-- Save the verbatim Q5 samples as individual files in `references/voice-samples/`, then write `context/voice-and-tone.md` as the distilled read of them. Point the file at the samples.
+- **Stamp each page as a wiki page.** Every `context/` file carries frontmatter. On fill, set `status: live` (it ships as `template`), set `updated` to today, keep the `about` tags, and list the real material behind the page in `sources` (a voice sample file, the site, an answer). Keep the `**Hubs:**` footer that links related pages.
+- **Keep the hard split.** The wiki is about the user's business, never about an account. Do not write a prospect or customer fact into any `context/` page. Account facts belong in the resolved record (a `record` call), not a file. The one thing that may cross over is an anonymized market pattern, no company or person name.
+- **Update the catalog.** After the pages are filled, refresh `context/index.md` so its one-line summaries match what each page now says. If you add a page, add its line. The index is read first by every later task, so it has to be true.
+- Save the verbatim Q5 samples as individual files in `references/voice-samples/`, then write `context/voice-and-tone.md` as the distilled read of them. Point the file's `sources` at the samples.
 - Fill `connections.md` from the stack in Q7. Mark each tool's status honestly (`not yet connected` is the default).
 - Fill `CLAUDE.md`: replace every `{{placeholder}}` with the real detail. Keep the durable structure intact.
 - Everything you write follows `context/voice-and-tone.md` once it exists. No em dashes, no filler, plain and direct.

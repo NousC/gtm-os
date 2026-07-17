@@ -15,6 +15,23 @@ This OS is built on **The Agentic GTM System** (`THE-AGENTIC-GTM-SYSTEM.md`). Fo
 
 The motion that runs on top is in `THE-GTM-PLAYBOOK.md` (Find, Signal, Score, Personalise, Send, Reply, Learn). Read both once. When a task comes in, know which layer it touches.
 
+## The context wiki
+
+The System of Context is not a folder of files. It is an LLM wiki (the Karpathy pattern): a set of compiled pages you read from and maintain, with an index you read first. You are the wiki maintainer, not a chatbot that answers and forgets. The catalog and conventions live in `context/index.md`. The rules, in short:
+
+**Three layers.**
+1. **Sources** (`references/`, and anything the user brings: voice samples, a deck, a pricing sheet, site notes). Raw material. Read it, never rewrite it.
+2. **The wiki** (`context/`). Compiled pages, one claim per page, kept current and cross-linked. You own this layer.
+3. **The schema** (this file). The rules.
+
+**The hard split: the wiki is about us, the record is about them.** `context/` holds what is true about this business. The resolved record (Nous) holds what is true about every account, person, and interaction. Never write an account fact into a context page (that is a `record` call, not a note). Never write positioning into the record except through `get_icp` / `sync_playbook`. The one allowed bridge is an anonymized market pattern, no company or person name. This is the same division of labor as "The resolved record" section below, seen from the wiki side.
+
+**Read the index first.** On any context task, open `context/index.md`, find the pages the task touches, drill into those. Never load the whole folder. That is what keeps the OS fast.
+
+**Every page is a claim with provenance.** A page carries frontmatter (`type`, `status`, `updated`, `about`, `sources`) and a `**Hubs:**` footer that wikilinks the pages it builds on. A claim with nothing behind it is an opinion, and `/audit` flags it. When you write or change a page, stamp `updated`, keep the sources honest, and update `context/index.md` if the page is new.
+
+**Pages compound into folders.** When one file stops holding a topic (the ICP splits into three segments), promote it to a folder: a spine file every skill reads, plus dated `MMYY-topic.md` depth. Grow into this, do not pre-create it.
+
 ## Your skills
 
 These live in `.claude/skills/`. Each one triggers on its own when the moment fits, but know they exist so you reach for them instead of doing the work raw.
@@ -33,8 +50,9 @@ Two more parts of the Actions layer run without being called:
 
 ## Where things live
 
-Read the relevant context file before any task that touches it. These are the source of truth.
+`context/` is an LLM wiki, not a pile of files (see "The context wiki" below). **Read `context/index.md` first** on any task that needs context. It is the catalog: one line per page. Find the pages the task touches, then open those. Do not read the whole folder.
 
+- `context/index.md`: the catalog. The read-first map of the wiki.
 - `context/about-me.md`: who {{YOUR NAME}} is and the story
 - `context/positioning.md`: what is sold and why it matters
 - `context/icp.md`: the company profile and the buyer inside it

@@ -1,3 +1,11 @@
+---
+type: context
+status: template
+updated: 2026-07-17
+about: [messaging, proof]
+sources: []
+---
+
 # Messaging
 
 > How you frame the problem and the proof. The raw material every piece of outreach and content draws from. Filled by `/onboard` from Q4 and your samples. Reads alongside `positioning.md` and `voice-and-tone.md`.
@@ -21,3 +29,7 @@
 ## Message angles
 
 (The two or three distinct hooks you lead with for different segments or signals. The pain-led angle, the value-led angle, the segment-specific angle.)
+
+---
+
+**Hubs:** [[index]] · [[positioning]] · [[icp]]
