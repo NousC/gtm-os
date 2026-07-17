@@ -26,6 +26,7 @@ create table if not exists lead_lists (
   id          uuid primary key default gen_random_uuid(),
   name        text not null,
   source      text not null default 'manual',   -- lookalike | company_people | apollo | csv | manual
+  client      text,                             -- agencies: the client slug this list belongs to (null = your own)
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
 );
@@ -62,6 +63,7 @@ create table if not exists leads (
   tags          text[] not null default '{}',
   status        text not null default 'new',   -- new | qualified | queued | sent | replied | dropped
   source        text,            -- where the lead came from (stamp it, so reply rates compare)
+  client        text,            -- agencies: the client slug this lead belongs to (null = your own)
   notes         text,
 
   created_at    timestamptz not null default now(),
@@ -75,6 +77,12 @@ create index if not exists leads_email  on leads(lower(email))  where email  is 
 create index if not exists leads_domain on leads(lower(domain)) where domain is not null;
 create index if not exists leads_score  on leads(icp_score desc nulls last);
 create index if not exists leads_status on leads(status);
+create index if not exists leads_client on leads(client) where client is not null;
+
+-- Upgrade path: if you created the store before the client column existed, these add it
+-- without touching your data. Safe to re-run.
+alter table lead_lists add column if not exists client text;
+alter table leads      add column if not exists client text;
 
 -- updated_at maintenance.
 create or replace function set_updated_at() returns trigger as $$
@@ -93,6 +101,7 @@ create trigger leads_updated_at before update on leads
 create or replace view lead_list_overview as
 select
   l.id,
+  coalesce(l.client, ll.client) as client,
   ll.name        as list,
   l.name,
   l.title,

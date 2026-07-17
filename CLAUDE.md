@@ -96,6 +96,14 @@ How the skills use it, all reading the configured store from `connections.md`:
 
 The lead store is a working pipeline the user owns and exports. It is not the wiki (that is about the business) and not a substitute for the resolved record (that resolves every account and interaction). It is the list you work.
 
+## Clients (for agencies)
+
+If the user runs go-to-market for more than one company, each client lives in `clients/<slug>/`, with its own context wiki in `clients/<slug>/context/`. The root `context/` stays the user's own business (the agency itself). See `clients/README.md`.
+
+The rule that scopes every skill: **when a task names a client, read `clients/<slug>/context/` as the wiki instead of the root `context/`.** No client named means the root context (a solo user, or the agency's own outreach). When a find-and-enrich skill works a client, stamp the client `<slug>` into the lead store's `client` column so that client's leads and lists stay scoped, and `/lead-list` can filter to one client at a time. One shared lead store holds every client unless the user chose to isolate a client in its own Supabase.
+
+Solo users selling their own thing never touch `clients/`. It is the agency layer, off by default.
+
 ## The business (filled by /onboard)
 
 - **Who:** {{ONE LINE ON WHO YOU ARE}}

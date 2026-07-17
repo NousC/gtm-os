@@ -22,6 +22,8 @@ Read `intake.md`. If the question blocks already have real answers, skip the int
 
 Read both reference files so your questions and your output match the framework.
 
+**Is this for you, or for a client?** If the user runs an agency or works several companies and says this run is for a client (they name one), you are onboarding that client, not the user's own business. Everything below is the same, with two changes: the questions are about the *client's* business (their website, their ICP, their voice), and you scaffold into `clients/<slug>/context/` instead of the root `context/` (see Step 4 and `clients/README.md`). The root `context/` stays the agency's own business. If no client is named, this is the user's own onboarding and you write root `context/` as normal.
+
 ## Step 2: website and existing files (do this first, always)
 
 Before any questions, ask two things:
@@ -59,7 +61,9 @@ The questions map to files like this:
 
 ## Step 4: scaffold the Day-1 file set
 
-Fill every `context/` file by merging the interview answers with the website scrape. Use the existing file templates as the structure. You are not filling a folder of files, you are compiling a wiki. Read `context/index.md` first so you build to its conventions. Rules:
+Fill every `context/` file by merging the interview answers with the website scrape. Use the existing file templates as the structure. You are not filling a folder of files, you are compiling a wiki. Read `context/index.md` first so you build to its conventions.
+
+**If this is a client run** (Step 1), scaffold into `clients/<slug>/context/` instead of the root `context/`: build the same wiki there (an `index.md` plus the pages), from the client's answers and their website. Pick a short lowercase `<slug>` from the client's name. Leave the root `context/` untouched, that is the agency's own. When you set up the lead store for a client (Step 5b), stamp their `<slug>` into the `client` column so their leads stay scoped. Everything else below is identical. Rules:
 
 - The user's own words win over the scrape. Use the scrape to fill gaps and add detail, never to overwrite what they said.
 - **Stamp each page as a wiki page.** Every `context/` file carries frontmatter. On fill, set `status: live` (it ships as `template`), set `updated` to today, keep the `about` tags, and list the real material behind the page in `sources` (a voice sample file, the site, an answer). Keep the `**Hubs:**` footer that links related pages.

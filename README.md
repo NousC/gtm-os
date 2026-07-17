@@ -118,6 +118,8 @@ The find-and-enrich skills interview you the first time you run them and write y
 
 **Is my data private?** Yes. Your business context lives in local files in your repo. Your leads live in a database you own. Nothing is sent anywhere you did not connect.
 
+**I run an agency with many clients. Does that work?** Yes. Each client gets its own folder under `clients/<slug>/` with its own context wiki, so a task for one client reads that client's positioning and voice, never another's. Run `/onboard` for a client to set it up. Your leads all live in one store with a `client` column, so `/lead-list` filters to one client at a time. See `clients/README.md`.
+
 **Can I add my own skills?** Yes. Every skill is built through Claude Code's `skill-creator`, and `EXPANSIONS.md` shows what to add as you grow.
 
 ---
