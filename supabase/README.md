@@ -11,7 +11,7 @@ while still owning every row.
 
 ## What lives here
 
-- `schema.sql` — the lead store. Two tables (`lead_lists`, `leads`) and one view
+- `schema.sql`, the lead store. Two tables (`lead_lists`, `leads`) and one view
   (`lead_list_overview`). Adapted from the Nous leads schema, self-contained. It holds
   identity, firmographics, the ICP score, the signal blocks from `signal-scan` and
   `content-scan`, your tags, and the workflow status.
