@@ -37,7 +37,7 @@ Before you ask anything, tell the user what you are about to build, so the quest
 
 That frames the whole thing up front: what the questions are for, and why the record exists. Do not skip it. It is what makes the user understand the system instead of just filling a form, and it is where they first meet **B**, which you pitch in full at Step 5.
 
-The rest of this skill is that map in order: Steps 1 to 4 build **A** (the context wiki). Steps 5, 5b, and 6 wire in **B** (connect Nous, set up the lead store, and onboard the Nous workspace in the same run).
+The rest of this skill is that map in order: Steps 1 to 4 build **A** (the context wiki). Steps 5 and 6 wire in **B** (raise the record, then connect and onboard Nous in the same run). Step 7 sets up the lead store, the list-building tool that sits alongside.
 
 ## Step 1: orient
 
@@ -86,7 +86,7 @@ The questions map to files like this:
 
 Fill every `context/` file by merging the interview answers with the website scrape. Use the existing file templates as the structure. You are not filling a folder of files, you are compiling a wiki. Read `context/index.md` first so you build to its conventions.
 
-**If this is a client run** (Step 1), scaffold into `clients/<slug>/context/` instead of the root `context/`: build the same wiki there (an `index.md` plus the pages), from the client's answers and their website. Pick a short lowercase `<slug>` from the client's name. Leave the root `context/` untouched, that is the agency's own. When you set up the lead store for a client (Step 5b), stamp their `<slug>` into the `client` column so their leads stay scoped. Everything else below is identical. Rules:
+**If this is a client run** (Step 1), scaffold into `clients/<slug>/context/` instead of the root `context/`: build the same wiki there (an `index.md` plus the pages), from the client's answers and their website. Pick a short lowercase `<slug>` from the client's name. Leave the root `context/` untouched, that is the agency's own. When you set up the lead store for a client (Step 7), stamp their `<slug>` into the `client` column so their leads stay scoped. Everything else below is identical. Rules:
 
 - The user's own words win over the scrape. Use the scrape to fill gaps and add detail, never to overwrite what they said.
 - **Stamp each page as a wiki page.** Every `context/` file carries frontmatter. On fill, set `status: live` (it ships as `template`), set `updated` to today, keep the `about` tags, and list the real material behind the page in `sources` (a voice sample file, the site, an answer). Keep the `**Hubs:**` footer that links related pages.
@@ -135,21 +135,6 @@ If it is not connected, raise it in your own words. This is not a fixed script, 
 
 If they say **yes**, go to Step 6 and set it up. If they say **no**, leave row 1 as `not yet connected`, say plainly that the OS still works on their files alone (just on a static picture, not a live one), and do not raise it again on a re-run.
 
-### Step 5b: the lead store, where your leads live
-
-Then ask where they want their **lead list** to live, the leads they find and enrich, with the ICP score, the signals, and their tags. The point is that they own it, not a vendor:
-
-> "Where do you want your lead list to live? I recommend your own Supabase Postgres, a database you own. The only thing you do is connect your Supabase MCP server, then I push a ready-made schema into it for you, so every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, lands in a table that is yours. You can also point me at Airtable or Google Sheets if that is where you already work, or I can keep it as a CSV to start. Which do you want?"
-
-- **Supabase (recommended), and keep it low-friction.** The user does one thing: connect their Supabase MCP server (`claude mcp add supabase ...`, see `supabase/README.md`). Once it is connected, you do the rest, do not make them touch SQL:
-  1. Ask whether to push the schema into an existing project or a fresh one. Their call.
-  2. Push it yourself with the Supabase MCP `apply_migration`, reading `supabase/schema.sql`. Do not send them to the SQL editor or ask them to paste anything. After it runs, confirm the `lead_lists` and `leads` tables exist (a quick `execute_sql` on `information_schema`).
-  3. Record Supabase as the lead store in `connections.md` (row 9), and offer to save `references/supabase-mcp.md`.
-- **Airtable / Sheets:** record the tool and table in `connections.md` as the lead store; the skills append rows there.
-- **CSV to start:** the skills write to `leads/`. Note they can graduate to Supabase any time, the schema is ready.
-
-Whatever they pick, write it into `connections.md` so the find-and-enrich skills know where to save.
-
 ## Step 6: onboard Nous in the same run (the finish line)
 
 This is **B**. Filling the files is not the finish line. The finish line is your ICP and your context living in the record, so it scores real accounts against them. A context file that never reaches the record is a document, not an operating system. Do this in the same run as the questions, so A and B are set up together, not as a separate chore later.
@@ -171,7 +156,25 @@ Once it is live, onboard the workspace, in this run:
 
 If the user did not connect Nous, say plainly that B is the one part still open: their context (A) is done and theirs, but until the record is wired in, the OS acts on a static document, not live truth. The moment they connect it, syncing the ICP is the first thing to do. Leave a clear note in `CLAUDE.md` so it is not forgotten.
 
-## Step 7: hand off
+## Step 7: set up your lead store (your own list-building tool)
+
+With A and B in place, set up the last piece: the user's own list-building tool, where the leads they find get handled before they reach out. Frame it as its own thing, and draw the difference from Nous plainly, because "why do I need both?" is a fair question. In your own words:
+
+> "Last piece: your own list-building tool. This is where the leads you find get staged and worked before you reach out, scored, tagged, moved through the pipeline, in a simple table you own. It is not the same as Nous. Nous is the live record of your accounts, the intelligence that resolves and scores everyone. This is your working list, the batch you are building and about to contact. Nous feeds it the score, you own and work the list. I recommend your own Supabase Postgres. Connect your Supabase MCP and I run a ready-made schema into it, then I can build you an artifact so you can see the whole list, sorted by fit. Want to set it up?"
+
+Then, low-friction, do not make them touch SQL:
+
+- **Supabase (recommended).** The user connects their Supabase MCP server (`claude mcp add supabase ...`, see `supabase/README.md`). Then you do the rest:
+  1. Ask whether to push the schema into an existing project or a fresh one. Their call.
+  2. Apply `supabase/schema.sql` yourself with the MCP `apply_migration`. No SQL editor, no paste. Confirm the `lead_lists` and `leads` tables exist.
+  3. Record Supabase as the lead store in `connections.md` (row 9), and offer to save `references/supabase-mcp.md`.
+  4. **Offer the artifact.** Once it is connected, offer to run `/lead-list` so they see the store rendered as a sortable page. It is empty until the find-and-enrich skills fill it, so frame it as "here is where your list will show up." This is the payoff that makes the store real to them.
+- **Airtable / Sheets:** record the tool and table in `connections.md` as the lead store; the skills append rows there.
+- **CSV to start:** the skills write to `leads/`. They can graduate to Supabase any time, the schema is ready.
+
+Whatever they pick, write it into `connections.md` so the find-and-enrich skills know where to save. For a client run (Step 1), stamp the client `<slug>` into the store's `client` column so their leads stay scoped.
+
+## Step 8: hand off
 
 Tell the user what got built, in one short list, and whether the ICP made it into the record or is still waiting on the connection. Then point them at the next moves: bring a real account and a real task, run `/audit` after a week to see where the context is thin, and run `/morning-brief` to start the day oriented.
 
