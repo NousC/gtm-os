@@ -19,9 +19,9 @@ One clone turns Claude Code into a full go-to-market stack. Your business sits i
 │     first, then compiled pages: positioning, ICP,          │
 │     voice, pricing. this is what stops it guessing.        │
 │                         │                                  │
-│   REVENUE CONTEXT LAYER   Nous (optional)                  │
-│     your conversations, CRM, and inbox unified into        │
-│     one complete picture of every buyer.                   │
+│   REVENUE CONTEXT LAYER   Nous                             │
+│     your sales conversations, CRM data, and inbox          │
+│     unified into one complete picture of every buyer.      │
 │                         │                                  │
 │   SKILLS  .claude/skills/    HOOKS  .claude/hooks/         │
 │     7 you call by name.        3 run on their own.         │
@@ -39,7 +39,7 @@ One clone turns Claude Code into a full go-to-market stack. Your business sits i
 The foundation is **Claude Code**, the runtime you already have. Everything above is this repo.
 
 - **Context wiki (`context/`)** is your business as an LLM wiki: positioning, ICP, voice, pricing. An `index.md` a session reads first, so it opens the two pages a task needs instead of loading everything. This is what stops the agent guessing.
-- **Revenue context layer (Nous, optional)** brings your conversations, CRM, and inbox into one complete picture of every buyer your agents read from. `/onboard` offers to wire it in. The kit works without it.
+- **Revenue context layer (Nous)** brings your sales conversations, CRM data, and inbox into one complete picture of every buyer your agents read from. `/onboard` sets it up.
 - **Skills (`.claude/skills/`)** are the work you call by name. **Hooks (`.claude/hooks/`)** run on their own each session. The **agent (`.claude/agents/`)** chains the skills into the full account loop.
 - **Lead store (`supabase/`)** is where your leads live, in a Postgres database you own.
 
@@ -77,7 +77,7 @@ Then, inside Claude Code:
 | **3 lifecycle hooks** | pre-wired, no keys: orient each session, pull the record before a task, sync context after an edit |
 | **1 agent** | `gtm-operator`, runs the full account-based loop end to end |
 | **A context wiki** | your business as an LLM wiki: compiled pages, an index read first, cross-linked |
-| **A revenue context layer** | Nous, optional. your conversations, CRM, and inbox as one complete picture of every buyer your agents read from |
+| **A revenue context layer** | Nous. your sales conversations, CRM data, and inbox as one complete picture of every buyer your agents read from |
 | **A lead store you own** | your own Supabase Postgres, holding every lead with its ICP score, signals, and tags |
 
 Everything works on clone. Nothing is required beyond Claude Code.
@@ -103,10 +103,6 @@ The find-and-enrich skills interview you the first time you run them and write y
 ## FAQ
 
 **Do I need to know how to code?** No. You run everything by talking to Claude Code in plain language. The only setup is `/onboard`.
-
-**What is Nous?** The optional revenue context layer underneath the kit. It brings all your sales conversations, CRM data, and inbox into one complete picture of every buyer, so your agents read structured intelligence instead of scattered data, and your team can trust what the agent is doing. It is what your agents read from, not a dashboard you log into.
-
-**Do I need it?** No. The kit works on clone. `/onboard` offers to wire Nous in and everything gets sharper once it is.
 
 **Where do my leads live?** In your own Supabase Postgres, or Airtable, Sheets, or a CSV if you prefer. You own the data either way. Supabase is the recommended path because it renders as a live lead list and holds the ICP score and signals per lead.
 
