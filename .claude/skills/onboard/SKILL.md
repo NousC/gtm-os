@@ -31,7 +31,7 @@ Before you ask anything, tell the user what you are about to build, so the quest
 > - how you frame the problem, and how you talk
 > - your competitors, your edge, and your pricing
 >
-> **B. Your GTM reality, the live record.** What is actually happening across your tools: every lead, every conversation, every account, resolved into one live record that changes every day. A file cannot hold this. That is the resolved record, and that is what Nous is. It is what turns A from a document into a system that acts on live truth instead of a guess. Setting it up is optional, and I will show you exactly what it does before you decide.
+> **B. A context reasoning layer for your OS.** It brings all your sales conversations, CRM data, and emails into one resolved account, so your agents can act on it and your team can trust what the agent is doing. A file cannot hold this, it stays live. This is what Nous does, and setting it up is optional. I will show you exactly what it does before you decide.
 >
 > We do A now with the questions, then I show you B. Ready?"
 
