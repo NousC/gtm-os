@@ -53,4 +53,4 @@ claude mcp list
 
 Then run `supabase/schema.sql` in your project (SQL editor, or the MCP `apply_migration`), and save the setup to `references/supabase-mcp.md`. Full guide: `supabase/README.md`.
 
-Record which store is configured here so the skills (`lookalike-builder`, `company-people`, `signal-scan`, `content-scan`, `lead-list`) know where to read and write. Supabase is recommended; Airtable, Google Sheets, or a CSV in `leads/` also work. This is the list you work, distinct from the resolved record above, which resolves every account and interaction.
+Record which store is configured here so the skills (`lookalike-builder`, `company-people`, `signal-scan`, `content-scan`) know where to read and write. Supabase is recommended; Airtable, Google Sheets, or a CSV in `leads/` also work. This is the list you work, distinct from the resolved record above, which resolves every account and interaction.

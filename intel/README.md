@@ -14,4 +14,4 @@ The split that keeps this from rotting: your tools and your resolved record hold
 
 ## How it fills
 
-By hand as you work, and through `/intel` once a week. `/intel` reads the meeting substrate from your resolved record, plus recent decisions and sources, and writes the synthesis: it appends to the `views/` files where your thinking moved, updates `patterns.md`, and files new internal meeting notes. It is the weekly companion to the daily `/morning-brief`.
+By hand as you work. When you decide something, log it in `decisions/log.md`. When a read shifts, append a dated entry to a `views/` file. When a theme repeats, add it to `patterns.md`. `/audit` reads this layer and flags what has gone stale or thin, and `/morning-brief` pulls the recent decisions into the daily brief.

@@ -52,7 +52,7 @@ connect your Supabase MCP server. After that, the agent pushes the schema for yo
 - **Nous (optional).** If the resolved record is connected, it computes the ICP score from
   the signals and pushes it into `leads.icp_score`, so the score in your own database is
   the same one the record uses. The score lives in your table either way.
-- **`/lead-list`** reads the store and renders it as an artifact you can open and sort.
+- **On request** the OS reads the store and renders it as an artifact you can open and sort.
 
 The skills write with plain SQL through the Supabase MCP (`execute_sql`). Nothing is
 hard-coded to a hosted service. If you ever leave this OS, the leads are already in a

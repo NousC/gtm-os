@@ -39,12 +39,10 @@ These live in `.claude/skills/`. Each one triggers on its own when the moment fi
 - `/onboard`: the setup wizard. Already run if this file is filled in. Re-run any time after editing `intake.md` to refresh the context files.
 - `/audit`: scores the build against the four layers and flags context that has gone stale or thin. Run after a week, then weekly.
 - `/morning-brief`: pulls accounts, follow-ups, and what went quiet into one short daily brief. Run at the start of the day.
-- `/intel`: the weekly synthesis. Turns the week's internal meetings, decisions, and saved sources into durable insight in the `intel/` layer. Run weekly.
 - `/lookalike-builder`: discovers lookalike companies from a few seeds (AI-Ark), ICP-scores them, and saves the company table to the lead store. Hands off to company-people.
 - `/company-people`: finds the decision-maker and a verified email at each company (LinkedIn scrape plus verify), saved to the lead store.
 - `/signal-scan`: the first enrichment pass. Scans an account or a whole list for buying signals from the website and the record, scores them, and writes the signal block, the brief, and the ICP score onto each lead (record and lead store).
 - `/content-scan`: the deep Intent layer. Scrapes a qualified prospect's LinkedIn posts, reads them for intent, and records the signal. Runs after signal-scan, on ICP-qualified leads only (it is paid).
-- `/lead-list`: renders the lead store as a sortable artifact and helps you tag, re-status, and filter it.
 
 Add more as the work repeats. Every new skill is built through the `skill-creator` plugin (see "Building new skills" below). This is the System of Actions.
 
@@ -92,7 +90,7 @@ How the skills use it, all reading the configured store from `connections.md`:
 - `lookalike-builder` inserts the discovered companies, `company-people` fills in the decision-maker and verified email.
 - `signal-scan` writes the signals, the brief, and the ICP score onto each lead; `content-scan` adds the intent signal.
 - If the resolved record (Nous) is connected, it computes the ICP score and pushes it into `leads.icp_score`, so the store and the record agree, and the score lives in the user's own database either way.
-- `lead-list` renders the store as an artifact and edits it (tag, re-status, filter).
+- the OS renders the store as an artifact on request and edits it (tag, re-status, filter).
 
 The lead store is a working pipeline the user owns and exports. It is not the wiki (that is about the business) and not a substitute for the resolved record (that resolves every account and interaction). It is the list you work.
 
@@ -100,7 +98,7 @@ The lead store is a working pipeline the user owns and exports. It is not the wi
 
 If the user runs go-to-market for more than one company, each client lives in `clients/<slug>/`, with its own context wiki in `clients/<slug>/context/`. The root `context/` stays the user's own business (the agency itself). See `clients/README.md`.
 
-The rule that scopes every skill: **when a task names a client, read `clients/<slug>/context/` as the wiki instead of the root `context/`.** No client named means the root context (a solo user, or the agency's own outreach). When a find-and-enrich skill works a client, stamp the client `<slug>` into the lead store's `client` column so that client's leads and lists stay scoped, and `/lead-list` can filter to one client at a time. One shared lead store holds every client unless the user chose to isolate a client in its own Supabase.
+The rule that scopes every skill: **when a task names a client, read `clients/<slug>/context/` as the wiki instead of the root `context/`.** No client named means the root context (a solo user, or the agency's own outreach). When a find-and-enrich skill works a client, stamp the client `<slug>` into the lead store's `client` column so that client's leads and lists stay scoped, and you can filter to one client at a time. One shared lead store holds every client unless the user chose to isolate a client in its own Supabase.
 
 Solo users selling their own thing never touch `clients/`. It is the agency layer, off by default.
 
@@ -125,7 +123,7 @@ Neither half works alone. An edited context file is a document until it is synce
 - `intel/decisions/log.md`: when something is decided, log it here with the why. One line is fine.
 - `intel/views/`: when your read on something shifts, append a dated entry so the evolution is visible.
 - `archives/`: when a file is superseded, move the old one here. Never delete, never overwrite history.
-- `/audit` runs weekly to flag context that has gone stale or thin. `/intel` runs weekly to synthesize the week into durable insight.
+- `/audit` runs weekly to flag context that has gone stale or thin, and to keep the `intel/` layer honest.
 
 ## Writing standard
 

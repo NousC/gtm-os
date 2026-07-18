@@ -162,7 +162,7 @@ Then, low-friction, do not make them touch SQL:
   1. Ask whether to push the schema into an existing project or a fresh one. Their call.
   2. Apply `supabase/schema.sql` yourself with the MCP `apply_migration`. No SQL editor, no paste. Confirm the `lead_lists` and `leads` tables exist.
   3. Record Supabase as the lead store in `connections.md` (row 9), and offer to save `references/supabase-mcp.md`.
-  4. **Offer the artifact.** Once it is connected, offer to run `/lead-list` so they see the store rendered as a sortable page. It is empty until the find-and-enrich skills fill it, so frame it as "here is where your list will show up." This is the payoff that makes the store real to them.
+  4. **Offer the artifact.** Once it is connected, offer to render the store as a sortable page (read `lead_list_overview` and build a self-contained artifact). It is empty until the find-and-enrich skills fill it, so frame it as "here is where your list will show up." This is the payoff that makes the store real to them.
 - **Airtable / Sheets:** record the tool and table in `connections.md` as the lead store; the skills append rows there.
 - **CSV to start:** the skills write to `leads/`. They can graduate to Supabase any time, the schema is ready.
 

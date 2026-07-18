@@ -6,7 +6,7 @@ This is for the inside of the company: what you and your team decided, argued ab
 
 Capture: who was there, what you talked about, what you decided or left open, and what happens next. The decisions graduate to `intel/decisions/log.md`. The open questions and the recurring themes feed `views/` and `patterns.md`.
 
-If your resolved record holds transcripts of internal calls (because a teammate is in there as an internal-tagged person), `/intel` pulls those and drafts the distilled note here so you are not transcribing by hand.
+If your resolved record holds transcripts of internal calls (because a teammate is in there as an internal-tagged person), you can pull those and distill the note here instead of transcribing by hand.
 
 Format:
 

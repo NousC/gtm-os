@@ -36,7 +36,7 @@ gtm-os/
   sequence for Globex"), the skills read `clients/<slug>/context/` as the lens instead of
   root `context/`. No client named means your own root context.
 - **One lead store, scoped.** Leads carry a `client` value (the slug), so a single Supabase
-  holds every client's pipeline and `/lead-list` filters to one client at a time. Want a
+  holds every client's pipeline and you filter to one client at a time. Want a
   client's data fully isolated instead? Point that client at its own Supabase in
   `clients/<slug>/context/` and note it there. One shared store is the default; isolation is
   a choice.
