@@ -19,7 +19,7 @@ One clone turns Claude Code into a full go-to-market stack. Your business sits i
 │     first, then compiled pages: positioning, ICP,          │
 │     voice, pricing. this is what stops it guessing.        │
 │                         │                                  │
-│   REVENUE CONTEXT LAYER   Nous                             │
+│   REVENUE CONTEXT LAYER                                    │
 │     your sales conversations, CRM data, and inbox          │
 │     unified into one complete picture of every buyer.      │
 │                         │                                  │
@@ -39,7 +39,7 @@ One clone turns Claude Code into a full go-to-market stack. Your business sits i
 The foundation is **Claude Code**, the runtime you already have. Everything above is this repo.
 
 - **Context wiki (`context/`)** is your business as an LLM wiki: positioning, ICP, voice, pricing. An `index.md` a session reads first, so it opens the two pages a task needs instead of loading everything. This is what stops the agent guessing.
-- **Revenue context layer (Nous)** brings your sales conversations, CRM data, and inbox into one complete picture of every buyer your agents read from. `/onboard` sets it up.
+- **Revenue context layer** brings your sales conversations, CRM data, and inbox into one complete picture of every buyer your agents read from. `/onboard` sets it up.
 - **Skills (`.claude/skills/`)** are the work you call by name. **Hooks (`.claude/hooks/`)** run on their own each session. The **agent (`.claude/agents/`)** chains the skills into the full account loop.
 - **Lead store (`supabase/`)** is where your leads live, in a Postgres database you own.
 
@@ -77,7 +77,7 @@ Then, inside Claude Code:
 | **3 lifecycle hooks** | pre-wired, no keys: orient each session, pull the record before a task, sync context after an edit |
 | **1 agent** | `gtm-operator`, runs the full account-based loop end to end |
 | **A context wiki** | your business as an LLM wiki: compiled pages, an index read first, cross-linked |
-| **A revenue context layer** | Nous. your sales conversations, CRM data, and inbox as one complete picture of every buyer your agents read from |
+| **A revenue context layer** | your sales conversations, CRM data, and inbox as one complete picture of every buyer your agents read from |
 | **A lead store you own** | your own Supabase Postgres, holding every lead with its ICP score, signals, and tags |
 
 Everything works on clone. Nothing is required beyond Claude Code.
