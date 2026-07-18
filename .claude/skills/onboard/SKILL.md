@@ -31,7 +31,7 @@ Before you ask anything, tell the user what you are about to build, so the quest
 > - how you frame the problem, and how you talk
 > - your competitors, your edge, and your pricing
 >
-> **B. A revenue reasoning layer for your OS.** It brings all your sales conversations, CRM data, and emails into one resolved account, so your agents can act on it and your team can trust what the agent is doing. A file cannot hold this, it stays live. This is what Nous does, and setting it up is optional. I will show you exactly what it does before you decide.
+> **B. A revenue context layer for your OS.** It brings all your sales conversations, CRM data, and emails into one resolved account, so your agents can act on it and your team can trust what the agent is doing. A file cannot hold this, it stays live. This is what Nous does, and setting it up is optional. I will show you exactly what it does before you decide.
 >
 > We do A now with the questions, then I show you B. Ready?"
 
