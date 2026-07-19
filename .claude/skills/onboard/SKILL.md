@@ -168,9 +168,34 @@ Then, low-friction, do not make them touch SQL:
 
 Whatever they pick, write it into `connections.md` so the find-and-enrich skills know where to save. For a client run (Step 1), stamp the client `<slug>` into the store's `client` column so their leads stay scoped.
 
-## Step 8: hand off
+## Step 8: hand off (make it land)
 
-Tell the user what got built, in one short list, and whether the ICP made it into the record or is still waiting on the connection. Then point them at the next moves: bring a real account and a real task, run `/audit` after a week to see where the context is thin, and run `/morning-brief` to start the day oriented.
+This is the payoff, whether or not the user connected the record or the lead store. Do it well, it is the moment they feel they built something.
+
+**First, check what is live.** If Nous is connected, call `get_workspace_status`. It tells you what is set up, including which integrations the user has connected. Use it two ways below, to summarise accurately and to decide whether to nudge on integrations. If Nous is not connected, summarise from the files you built.
+
+**1. Congrats and the summary.** Open with a real congratulations, named to their company, then a short numbered list of exactly what got built. Only list what actually happened, and make it read like a receipt, not a brochure:
+
+> "Congrats, [company] now runs on its own GTM OS. Here is what we set up.
+> 1. Your context wiki, [N] pages of positioning, ICP, voice, competitors, and pricing, in files you own.
+> 2. Your revenue context layer, connected, with your ICP synced in and scoring accounts. (Or, ready to connect whenever you want it.)
+> 3. Your lead store in Supabase, where every lead you find lands, scored and tagged. (Or, still to set up.)"
+
+Keep it to the three or four things that are true.
+
+**2. Remind about the sources, only if they are missing.** From `get_workspace_status`, look at which integrations are connected. If the core ones are not in yet, remind the user plainly, no pitch, just so they know:
+
+> "One thing to finish when you have a minute, connect your core sources inside Nous so the record has real material to work with. Your email inbox, your meeting notetaker, your calendar, and your LinkedIn. The more of those are in, the more the record can do for you."
+
+If those sources are already connected, do not say any of that. Note it as a win instead, "your inbox, notetaker, calendar, and LinkedIn are already connected, so the record is already pulling from them." If Nous is not connected at all, the reminder is simply that wiring it in is the next unlock.
+
+**3. The first move, build a skill.** Then point them at the thing that makes the OS theirs:
+
+> "Want to make this yours? Tell me one tedious thing you do over and over in your GTM, prepping the same kind of call, writing the same follow-up, pulling the same list, and we will turn it into a skill you run with a command. Just describe it and I will build it with you."
+
+If they name one, build it with them (through the `skill-creator` plugin if it is installed, otherwise scaffold `.claude/skills/<name>/SKILL.md` and refine it together). If not, it is there when they want it.
+
+**4. The lighter next moves.** Close with the day-to-day, bring a real account and a real task, run `/audit` after a week to see where the context is thin, and `/morning-brief` to start the day oriented.
 
 ## The standard for everything you write
 
