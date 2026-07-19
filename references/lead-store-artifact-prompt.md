@@ -1,9 +1,11 @@
 # Lead store artifact: build prompt
 
-A reusable spec for rendering the v2 lead store as a **Clay-style** table artifact. Hand this
-file to Claude Code with a data pull and it rebuilds the view. Data-shape-driven, so it works
-for any workspace. The OS renders this on request, after the find-and-enrich skills fill the
-database.
+The canonical, shipped render is the fixed template **`references/lead-store-template.html`**,
+and the **`/lead-list`** skill fills it with your data and publishes it, so every workspace gets
+the exact same design. Do not rebuild the artifact from scratch in normal use; inject the data
+into the template. This file documents how that template is built and behaves, so the design is
+recorded and a rare from-scratch rebuild reproduces it. Data-shape-driven, so it works for any
+workspace.
 
 ## The one-line ask
 

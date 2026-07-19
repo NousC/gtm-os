@@ -24,7 +24,7 @@ One clone turns Claude Code into a full go-to-market stack. Your business sits i
 │     unified into one complete picture of every buyer.      │
 │                         │                                  │
 │   SKILLS  .claude/skills/    HOOKS  .claude/hooks/         │
-│     7 you call by name.        3 run on their own.         │
+│     8 you call by name.        3 run on their own.         │
 │     find, enrich, score.       orient, pull, sync.         │
 │                         │                                  │
 │   AGENT  .claude/agents/                                   │
@@ -73,7 +73,7 @@ Then, inside Claude Code:
 
 | | |
 |---|---|
-| **7 GTM skills** | onboard, audit, morning-brief, lookalike-builder, company-people, signal-scan, content-scan |
+| **8 GTM skills** | onboard, audit, morning-brief, lookalike-builder, company-people, signal-scan, content-scan, lead-list |
 | **3 lifecycle hooks** | pre-wired, no keys: orient each session, pull the record before a task, sync context after an edit |
 | **1 agent** | `gtm-operator`, runs the full account-based loop end to end |
 | **A context wiki** | your business as an LLM wiki: compiled pages, an index read first, cross-linked |
@@ -95,6 +95,7 @@ Everything works on clone. Nothing is required beyond Claude Code.
 | `/company-people` | Finds the decision-maker and a verified email at each company, saved to your store. |
 | `/signal-scan` | Scans each account for buying signals, scores them, and writes the score, signals, and a copy-fuel brief to your store. Free. |
 | `/content-scan` | Reads a qualified prospect's LinkedIn posts for intent. Paid (Apify), ICP-qualified leads only. |
+| `/lead-list` | Renders your lead database as a Clay-style spreadsheet artifact (the same design for everyone), with the enrichment waterfall and per-client tabs. One command per client. |
 
 The find-and-enrich skills interview you the first time you run them and write your answers back into your context, so they come out personalised to your business, not generic, and never ask twice. The rest run on the context wiki you fill at onboarding. The kit ships lean on purpose; you add more as you grow (see `EXPANSIONS.md`).
 

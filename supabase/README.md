@@ -98,7 +98,7 @@ connect your Supabase MCP server. After that, the agent pushes the schema for yo
   company's people.
 - **`content-scan`** writes person-level intent into `leads.signals.intent`.
 - **Nous (optional)** scores the leads and pushes the score into the table (see above).
-- **On request** the OS reads `lead_list_overview` and renders it as a spreadsheet artifact (`references/lead-store-artifact-prompt.md`).
+- **`/lead-list`** reads the store and renders it as the canonical Clay-style spreadsheet artifact (the fixed `references/lead-store-template.html`, same design for everyone).
 
 The skills write with plain SQL through the Supabase MCP (`execute_sql`). Nothing is
 hard-coded to a hosted service. If you ever leave this OS, the leads are already in a

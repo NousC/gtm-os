@@ -43,6 +43,7 @@ These live in `.claude/skills/`. Each one triggers on its own when the moment fi
 - `/company-people`: finds the decision-maker and a verified email at each company (LinkedIn scrape plus verify), saved to the lead store.
 - `/signal-scan`: the first enrichment pass. Scans an account or a whole list for buying signals from the website and the record, scores them, and writes the signal block, the brief, and the ICP score onto each lead (record and lead store).
 - `/content-scan`: the deep Intent layer. Scrapes a qualified prospect's LinkedIn posts, reads them for intent, and records the signal. Runs after signal-scan, on ICP-qualified leads only (it is paid).
+- `/lead-list`: renders the lead database as the canonical Clay-style spreadsheet artifact (the fixed `references/lead-store-template.html`, same design for every workspace), with the enrichment waterfall and per-client tabs. Also tags and re-statuses the store.
 
 Add more as the work repeats. Every new skill is built through the `skill-creator` plugin (see "Building new skills" below). This is the System of Actions.
 
@@ -90,7 +91,7 @@ How the skills use it, all reading the configured store from `connections.md`:
 - `lookalike-builder` inserts the discovered companies, `company-people` fills in the decision-maker and verified email.
 - `signal-scan` writes the signals, the brief, and the ICP score onto each lead; `content-scan` adds the intent signal.
 - If the resolved record (Nous) is connected, it computes the ICP score and pushes it into `leads.icp_score`, so the store and the record agree, and the score lives in the user's own database either way.
-- the OS renders the store as an artifact on request and edits it (tag, re-status, filter).
+- `/lead-list` renders the store as the canonical Clay-style spreadsheet artifact and edits it (tag, re-status, filter).
 
 The lead store is a working pipeline the user owns and exports. It is not the wiki (that is about the business) and not a substitute for the resolved record (that resolves every account and interaction). It is the list you work.
 

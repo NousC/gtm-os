@@ -15,7 +15,7 @@ Your OS should look like a small, well-run go-to-market team. Not a hoarder's ba
 | `connections.md` | Every tool the OS can reach. |
 | `intel/` | Where the OS gets smarter over time: `decisions/`, `views/`, `meetings/`, `sources/`, `patterns.md`. See `intel/README.md`. |
 | `archives/` | Old files. Move here, never delete. |
-| `.claude/skills/` | `/onboard`, `/audit`, `/morning-brief`, `/lookalike-builder`, `/company-people`, `/signal-scan`, `/content-scan`. Add more as you grow. |
+| `.claude/skills/` | `/onboard`, `/audit`, `/morning-brief`, `/lookalike-builder`, `/company-people`, `/signal-scan`, `/content-scan`, `/lead-list`. Add more as you grow. |
 | `templates/` | Reusable scaffolds (campaigns, email sequences, message frames). The OS files new ones here and reads from here when it drafts. See `templates/README.md`. |
 | `supabase/` | Your lead database, your own Clay: `schema.sql` (companies + leads + enrichment_events, Clay's waterfall structure), a setup guide, and `references/lead-store-artifact-prompt.md` (how to render it as a spreadsheet). The find-and-enrich skills write here. See `supabase/README.md`. |
 | `clients/` | Agencies only: one folder per client, each with its own `context/` wiki. Run `/onboard` for a client to scaffold it. Root `context/` stays your own. See `clients/README.md`. |
