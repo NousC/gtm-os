@@ -67,9 +67,7 @@ create table if not exists leads (
   notes         text,
 
   created_at    timestamptz not null default now(),
-  updated_at    timestamptz not null default now(),
-
-  unique (lead_list_id, lower(email))
+  updated_at    timestamptz not null default now()
 );
 
 create index if not exists leads_list   on leads(lead_list_id, created_at desc);
@@ -78,6 +76,14 @@ create index if not exists leads_domain on leads(lower(domain)) where domain is 
 create index if not exists leads_score  on leads(icp_score desc nulls last);
 create index if not exists leads_status on leads(status);
 create index if not exists leads_client on leads(client) where client is not null;
+
+-- One lead per email per list. A partial unique INDEX, not a table-level unique (...),
+-- because Postgres does not allow an expression like lower(email) in a table constraint.
+-- lower(email) is the point (Bob@x.com == bob@x.com); the partial where keeps email-less
+-- company rows out of the index.
+create unique index if not exists leads_list_email_uniq
+  on leads(lead_list_id, lower(email))
+  where email is not null;
 
 -- Upgrade path: if you created the store before the client column existed, these add it
 -- without touching your data. Safe to re-run.
