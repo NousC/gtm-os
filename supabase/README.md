@@ -16,29 +16,38 @@ you work in, while still owning every row.
 
 ## The structure (the Clay principle in shape)
 
-`schema.sql` is four tables plus a spreadsheet view:
+`schema.sql` is five tables plus a spreadsheet view:
 
 - **`companies`**, firmographics enriched **once** per company, not re-fetched for every
   contact. Industry, size, funding, tech stack, job openings, signals, and the company-level
   ICP score. Everyone at that company shares it.
 - **`leads`**, people, each pointing at a company (`company_id`). Identity, title, seniority,
   contact channels, and **per-field provenance** on the high-value fields: `email_source`
-  (which provider found the email), `email_verified_by`, `last_verified_at`. This is what
-  makes the data trustworthy instead of a pile of guesses.
+  (which provider won), `email_verified_by`, `last_verified_at`. This is what makes the data
+  trustworthy instead of a pile of guesses.
+- **`lead_emails`**, the candidate emails for a person, one marked `is_primary`. This is the
+  real Clay work-email model: a provider can return an address that fails verification, so a
+  person can have several candidates and one chosen. `company-people` writes one row per
+  provider that returned an address, with its `verification`, and marks the first
+  verified-deliverable one primary. `leads.email` mirrors that chosen one.
 - **`enrichment_events`**, the waterfall log. One row every time a provider is called
   (`provider`, `field`, `status`, `credits`, `ran_at`). This is the table that turns "a lead
   list" into "a Clay replacement": you can see that an email was found by Prospeo, verified by
-  NeverBounce, the phone came from a fallback, and compare provider hit-rates and cost.
+  NeverBounce, a candidate from Apollo got discarded, and compare provider hit-rates and cost.
 - **`lead_lists`**, a list or campaign, scoped per client for agencies.
-- **`lead_rows`** (view) , one row per lead with the company firmographics and the ICP score
-  joined on, best-fit first. This is what you read and render as a table. See `lead-table.md`
-  for how to render it as a real spreadsheet.
+- **`lead_list_overview`** (view), one row per lead with the company firmographics and the ICP
+  score joined on, best-fit first. This is what you read and render as a table. See
+  `references/lead-store-artifact-prompt.md` for how to render it as a real spreadsheet.
 
-The waterfall in practice: for email, `company-people` tries provider one, logs an
-`enrichment_events` row, stops on a verified hit, else falls through to the next, exactly the
-ordered-providers-stop-on-hit pattern that gets you to 80 to 95% coverage instead of 50 to
-60% single-source. A re-verify pass reads `last_verified_at` and re-runs the waterfall on
-anything stale, the freshness loop Clay charges for.
+The waterfall in practice: for email, `company-people` calls providers in trust order, logs an
+`enrichment_events` row for each, **verifies every returned address and keeps going on
+invalid or catch-all**, and stops at the first that verifies deliverable. The work email is
+the first candidate, in trust order, that passes verification. That is how you get to 80 to
+95% coverage instead of 50 to 60% single-source. A re-verify pass reads `last_verified_at`
+and re-runs the waterfall on anything stale, the freshness loop Clay charges for.
+
+RLS is enabled on every table. The skills write through the privileged Supabase MCP
+connection, which bypasses RLS, so the tables are not exposed to the anon key.
 
 ## The ICP score, and Nous
 
@@ -89,7 +98,7 @@ connect your Supabase MCP server. After that, the agent pushes the schema for yo
   company's people.
 - **`content-scan`** writes person-level intent into `leads.signals.intent`.
 - **Nous (optional)** scores the leads and pushes the score into the table (see above).
-- **On request** the OS reads `lead_rows` and renders it as a spreadsheet artifact (`lead-table.md`).
+- **On request** the OS reads `lead_list_overview` and renders it as a spreadsheet artifact (`references/lead-store-artifact-prompt.md`).
 
 The skills write with plain SQL through the Supabase MCP (`execute_sql`). Nothing is
 hard-coded to a hosted service. If you ever leave this OS, the leads are already in a

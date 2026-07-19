@@ -133,7 +133,7 @@ insert into companies (name, domain, linkedin_url, industry, employee_count, emp
                        icp_score, icp_reason, enriched_at)
 values ('Acme', 'acme.com', 'https://www.linkedin.com/company/acme',
         'agency', 8, '1-10', 82, 'matches size + outbound keywords', now())
-on conflict (lower(domain)) do update
+on conflict (domain) do update
   set icp_score = excluded.icp_score, icp_reason = excluded.icp_reason,
       employee_count = excluded.employee_count, enriched_at = now();
 ```

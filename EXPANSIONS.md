@@ -17,7 +17,7 @@ Your OS should look like a small, well-run go-to-market team. Not a hoarder's ba
 | `archives/` | Old files. Move here, never delete. |
 | `.claude/skills/` | `/onboard`, `/audit`, `/morning-brief`, `/lookalike-builder`, `/company-people`, `/signal-scan`, `/content-scan`. Add more as you grow. |
 | `templates/` | Reusable scaffolds (campaigns, email sequences, message frames). The OS files new ones here and reads from here when it drafts. See `templates/README.md`. |
-| `supabase/` | Your lead database, your own Clay: `schema.sql` (companies + leads + enrichment_events, Clay's waterfall structure), a setup guide, and `lead-table.md` (how to render it as a spreadsheet). The find-and-enrich skills write here. See `supabase/README.md`. |
+| `supabase/` | Your lead database, your own Clay: `schema.sql` (companies + leads + enrichment_events, Clay's waterfall structure), a setup guide, and `references/lead-store-artifact-prompt.md` (how to render it as a spreadsheet). The find-and-enrich skills write here. See `supabase/README.md`. |
 | `clients/` | Agencies only: one folder per client, each with its own `context/` wiki. Run `/onboard` for a client to scaffold it. Root `context/` stays your own. See `clients/README.md`. |
 | `.claude/hooks/` | Three lifecycle hooks (orient, pull-record-before-task, sync-after-edit), wired in `.claude/settings.json`. See `.claude/hooks/README.md`. |
 | `.claude/agents/` | `gtm-operator`, the first real agent, runs the Dream 1000 loop over the record. Add more as your motions harden. |

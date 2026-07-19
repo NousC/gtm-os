@@ -214,7 +214,12 @@ set signals = signals || jsonb_build_object('intent', jsonb_build_object(
       'angle', '<one line in their words>', 'anchor_post', '<url>')),
     tags = case when not ('has-intent' = any(tags)) then array_append(tags, 'has-intent') else tags end
 where lower(linkedin_url) = lower('<linkedin_url>')  -- or match on lower(email)
-   or lower(email) = lower('<email>');
+   or lower(email) = lower('<email>')
+returning id;   -- <LEAD_ID>
+
+-- log the post scrape as a waterfall event
+insert into enrichment_events (lead_id, field, provider, status, credits, ran_at)
+values ('<LEAD_ID>', 'intent', 'apify', 'hit', 0.10, now());
 ```
 
 The evidence note stays in the resolved record (step 5); the store holds the glanceable

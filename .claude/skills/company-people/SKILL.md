@@ -108,73 +108,77 @@ Per person read: `firstName` + `lastName`, `linkedinUrl`, `headline` or `current
 parse leniently (`strict=False`). If a run returns the permission error, surface the
 approval URL and stop.
 
-## Phase 4, verify each email with NeverBounce (inside the skill), then route
+## Phase 4, the email waterfall (verify each, continue on fail)
 
-Do NOT trust the scrape's self-graded status. Verify here so the list lands graded. Call
-NeverBounce single-check per email:
+This is the Clay rule and the difference between a lead list and a trustworthy one. Do not
+just keep the scraped email. Resolve the work email:
 
-```bash
-curl -s "https://api.neverbounce.com/v4/single/check?key=$NEVERBOUNCE_API_KEY&email=jane@acme.com&address_info=1"
-# -> { "status":"success", "result":"valid|invalid|disposable|catchall|unknown", "flags":[...] }
-```
+1. Call email providers in **trust order**. HarvestAPI already returned one candidate with the
+   scrape. If it fails, and `PROSPEO_API_KEY` is set, Prospeo off the LinkedIn URL is the next
+   candidate. (Add Dropcontact, Apollo, Hunter, Findymail in the same pattern.)
+2. **Verify each returned address immediately** with NeverBounce:
+   ```bash
+   curl -s "https://api.neverbounce.com/v4/single/check?key=$NEVERBOUNCE_API_KEY&email=jane@acme.com&address_info=1"
+   # -> result: valid | invalid | disposable | catchall | unknown
+   ```
+3. **Stop at the first that verifies deliverable (`valid`)**, that is the work email. `catchall`
+   and `unknown` are risky candidates, keep one but keep trying if another provider is available.
+   `invalid` / `disposable`: **discard and continue** to the next provider.
+4. You only pay for the providers that actually run.
 
-Route by `result`:
-- **`valid`** -> keep, `email_status = verified`.
-- **`catchall`** -> keep, `email_status = risky` (a catch-all domain cannot be confirmed by any tool, this is the domain's nature, not a bad address; send at your discretion).
-- **`unknown`** -> keep, `email_status = risky`.
-- **`invalid` / `disposable`** -> drop the email. (Fallback, optional, off by default: if `PROSPEO_API_KEY` is set, re-find off the `linkedinUrl` via Prospeo, then re-verify. This is the only case Prospeo helps, never for catch-all.)
+So the work email is the first candidate, in trust order, that passes verification, not simply
+"the one we found". Every candidate (verified, risky, or discarded) gets recorded in Phase 5.
 
-## Phase 5, save to your lead database (company, person, and the waterfall log)
+## Phase 5, save to your lead database (company, person, candidates, waterfall log)
 
-The database splits company from person and records where each email came from, so per
-decision-maker you do three writes. **Supabase (recommended)** via the MCP:
+Per decision-maker, four writes. **Supabase (recommended)** via the MCP:
 
 ```sql
 -- 1. Upsert the company (firmographics live once, shared by everyone there). Get its id.
-insert into companies (name, domain, linkedin_url, industry, employee_count, enriched_at)
-values ('Acme', 'acme.com', 'https://www.linkedin.com/company/acme', 'agency', 8, now())
-on conflict (lower(domain)) do update set enriched_at = now()
+insert into companies (name, domain, linkedin_url, industry, employee_count, enriched_at, enriched_by)
+values ('Acme', 'acme.com', 'https://www.linkedin.com/company/acme', 'agency', 8, now(), 'company_people')
+on conflict (domain) do update set enriched_at = now()
 returning id;   -- <COMPANY_ID>
 
--- 2. Create or reuse the list, then insert the person attached to that company, with
---    provenance on the email: which provider found it, who verified it, when.
+-- 2. Create or reuse the list, then insert the person. leads.email mirrors the CHOSEN candidate.
 insert into lead_lists (name, source) values ('LinkedIn, agency founders', 'company_people') returning id;
 
-insert into leads (lead_list_id, company_id, name, first_name, last_name, email, email_status,
-                   email_source, email_verified_by, last_verified_at, linkedin_url, title,
-                   seniority, status, source, client)
-values ('<LIST_ID>', '<COMPANY_ID>', 'Jane Doe', 'Jane', 'Doe', 'jane@acme.com', 'verified',
-        'harvestapi', 'neverbounce', now(), 'https://www.linkedin.com/in/janedoe', 'Founder',
-        'founder', 'new', 'company_people', null)
+insert into leads (lead_list_id, company_id, name, title, seniority, linkedin_url,
+                   email, email_status, email_source, email_verified_by, email_verified_at,
+                   last_verified_at, credits_spent, status, source, client)
+values ('<LIST_ID>', '<COMPANY_ID>', 'Jane Doe', 'Founder', 'founder',
+        'https://www.linkedin.com/in/janedoe',
+        'jane@acme.com', 'verified', 'harvestapi', 'neverbounce', now(), now(), 0.016,
+        'new', 'company_people', null)
 on conflict (lead_list_id, lower(email)) do update
-  set email_status = excluded.email_status, email_verified_by = excluded.email_verified_by,
-      last_verified_at = now(), title = excluded.title
+  set email_status = excluded.email_status, email_source = excluded.email_source,
+      email_verified_by = excluded.email_verified_by, last_verified_at = now(), title = excluded.title
 returning id;   -- <LEAD_ID>
 
--- 3. Log the waterfall: one row per provider you called for this person's email.
-insert into enrichment_events (lead_id, company_id, field, provider, status, value_found, credits, ran_at)
-values ('<LEAD_ID>', '<COMPANY_ID>', 'work_email', 'harvestapi',  'hit',      'jane@acme.com', 0.012, now()),
-       ('<LEAD_ID>', '<COMPANY_ID>', 'work_email', 'neverbounce', 'verified', 'jane@acme.com', 0.004, now());
+-- 3. Write EVERY candidate email to lead_emails, mark the chosen one primary.
+insert into lead_emails (lead_id, email, kind, provider, verification, is_primary) values
+  ('<LEAD_ID>', 'jane@acme.com', 'work', 'harvestapi', 'verified', true),   -- the chosen one
+  ('<LEAD_ID>', 'j.doe@acme.io', 'work', 'apollo',     'invalid',  false)   -- a discarded candidate
+on conflict (lead_id, lower(email)) do nothing;
+
+-- 4. Log the waterfall: one row per provider AND verifier call, with its cost.
+insert into enrichment_events (lead_id, company_id, field, provider, status, value_found, credits, ran_at) values
+  ('<LEAD_ID>', '<COMPANY_ID>', 'work_email', 'harvestapi',  'hit',      'jane@acme.com', 0.012, now()),
+  ('<LEAD_ID>', '<COMPANY_ID>', 'work_email', 'neverbounce', 'verified', 'jane@acme.com', 0.004, now());
 ```
 
-**The waterfall is the point.** For each person you try providers in order and stop at the
-first verified email, logging an `enrichment_events` row for every call (hit, miss, risky,
-verified) with its cost. If the scraped email comes back `invalid` and Prospeo is enabled,
-that fallback is another provider row. That log is what lets you show later that Jane's email
-was found by HarvestAPI and verified by NeverBounce, and compare provider hit-rates and spend.
-The `email_source` / `email_verified_by` / `last_verified_at` on the lead are the fast read;
-the events table is the full history and the freshness clock for the re-verify pass.
+**Why `lead_emails` matters.** A provider can return an address that fails verification, so a
+person can have several candidates and one chosen. Storing them all, not just the winner, is
+what lets the spreadsheet show the provider-by-provider waterfall (chosen email starred,
+rejected ones struck through) and is the audit trail behind the score. `leads.email` is a
+convenience mirror of the primary `lead_emails` row for fast reads and the view.
 
-Firmographics (`industry`, `employee_count`) go on the **company**, never duplicated per
-person. If `lookalike-builder` already inserted the company, step 1 just updates it and
-returns the same id. For a client run, set the lead's `client` to the slug.
+Firmographics (`industry`, `employee_count`) live on the **company**, never per person. If
+`lookalike-builder` already inserted the company, step 1 just updates it and returns the same
+id. For a client run, set the lead's `client` to the slug. For **Airtable / Sheets / CSV**,
+append company + person + a provenance column as a flat row.
 
-For **Airtable / Sheets / CSV**, append company + person + a provenance column as a flat row.
-For **Nous (optional)**, you can also `record` the person and company so the resolved record
-and your database agree, but the database is the lead list.
-
-Then point the user at `signal-scan` (which enriches these same rows with buying signals and
-the ICP score) and `content-scan` after that.
+Then point the user at `signal-scan` (buying signals + the ICP score) and `content-scan`.
 
 ## Hard rules, never break these
 

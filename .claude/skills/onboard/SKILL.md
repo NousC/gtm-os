@@ -160,10 +160,10 @@ Then, low-friction, do not make them touch SQL:
 
 - **Supabase (recommended).** The user connects their Supabase MCP server (`claude mcp add supabase ...`, see `supabase/README.md`). Then you do the rest:
   1. Ask whether to push the schema into an existing project or a fresh one. Their call.
-  2. Apply `supabase/schema.sql` yourself with the MCP `apply_migration`. No SQL editor, no paste. Confirm the `companies`, `leads`, and `enrichment_events` tables exist.
+  2. Apply `supabase/schema.sql` yourself with the MCP `apply_migration`. No SQL editor, no paste. Confirm the `companies`, `leads`, `lead_emails`, and `enrichment_events` tables exist.
   3. Record Supabase as the lead database in `connections.md` (row 9), and offer to save `references/supabase-mcp.md`.
   4. **On the ICP score, mention Nous.** If Nous is connected, the score in the table comes from their Nous ICP model. For multiple clients, one Nous workspace per client scores that client's leads. The score is always visible in the table view.
-  5. **Offer the spreadsheet.** Once it is connected, offer to render it as a real spreadsheet. Read `lead_rows` and follow `supabase/lead-table.md` exactly, a data grid, not a dashboard. It is empty until the find-and-enrich skills fill it, so frame it as "here is where your list will show up." This is the payoff that makes it real to them.
+  5. **Offer the spreadsheet.** Once it is connected, offer to render it as a real spreadsheet. Read `lead_list_overview` and follow `references/lead-store-artifact-prompt.md` exactly, a data grid, not a dashboard. It is empty until the find-and-enrich skills fill it, so frame it as "here is where your list will show up." This is the payoff that makes it real to them.
 - **Airtable / Sheets:** record the tool and table in `connections.md` as the lead store; the skills append rows there.
 - **CSV to start:** the skills write to `leads/`. They can graduate to Supabase any time, the schema is ready.
 

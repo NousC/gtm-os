@@ -242,18 +242,23 @@ update companies
 set icp_score = <0..100>,
     icp_reason = '<one line, why>',
     signals = signals || '{"stack":{},"hiring":{},"momentum":{},"friction":{},"domain":{}}'::jsonb,
-    keywords = '["outbound agency","cold email","clay"]'::jsonb,
+    tech_stack = '{"crm":"hubspot","esp":"instantly"}'::jsonb,
     enriched_at = now()
-where lower(domain) = lower('<domain>');
+where lower(domain) = lower('<domain>')
+returning id;   -- <COMPANY_ID>
+
+-- log the scan as a waterfall event (so the enrichment history is complete)
+insert into enrichment_events (company_id, field, provider, status, credits, ran_at)
+values ('<COMPANY_ID>', 'firmographics', 'signal-scan', 'hit', 0, now());
 ```
 
-Every person at that company reads this score and these signals through the `lead_rows` view,
-so you score the company once, not five times. If Nous is connected it computes the score from
-the `signal.*` features and you push that same number into `companies.icp_score`, so your
-database matches the record. To move qualified leads forward, set their `status` on the
-`leads` rows (`update leads set status = 'qualified' where company_id = '<id>' ...`). If there
-is no store configured yet, skip this and note that setting one up (one MCP add plus one schema
-run) gives the signals a home you own.
+Every person at that company reads this score and these signals through the `lead_list_overview`
+view, so you score the company once, not five times. If Nous is connected it computes the score
+from the `signal.*` features and you push that same number into `companies.icp_score`, so your
+database matches the record. To move qualified leads forward, set their `status` on the `leads`
+rows (`update leads set status = 'qualified' where company_id = '<id>' ...`). If there is no
+store configured yet, skip this and note that setting one up (one MCP add plus one schema run)
+gives the signals a home you own.
 
 ### 6. Show the readout (chat only, not saved to a file)
 
