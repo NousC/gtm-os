@@ -2,21 +2,23 @@
 
 A skill runs when you call it. A hook runs on its own, on a Claude Code lifecycle event.
 That is the difference between an OS you drive and an OS that is already oriented when you
-sit down. These three hooks make the system act on its own principles without you
+sit down. These four hooks make the system act on its own principles without you
 remembering to.
 
 They ship pre-wired in `.claude/settings.json`, so a fresh clone has them the moment you
-open it in Claude Code. No install step, no API keys, no network. They are plain bash that
-reads the event on stdin and prints a short piece of context back. Every one exits cleanly
-even if something goes wrong, so a hook can never block your session.
+open it in Claude Code. No install step. Three are pure local bash — no keys, no network.
+The fourth (`nous-context-sync.sh`) pushes an edited context file straight into Nous when
+you are connected, and no-ops silently when you are not. Every one exits cleanly even if
+something goes wrong, so a hook can never block your session.
 
-## The three
+## The four
 
 | Hook | Fires on | What it does |
 |---|---|---|
 | `session-start.sh` | SessionStart | Orients the session on the four-layer system and tells it to read the context files and pull the resolved record before acting. |
 | `gtm-task-context.sh` | UserPromptSubmit | When your prompt looks like a GTM task, reminds the agent to pull the resolved record (get_context / get_account) first and record what it learned after. Silent on everything else. |
-| `context-sync-nudge.sh` | PostToolUse (Edit / Write) | When you edit a context file or a playbook, reminds the agent that the change does not reach the score or the other agents until it syncs it into the record (get_icp / sync_playbook). |
+| `nous-context-sync.sh` | PostToolUse (Edit / Write) | When you edit a `context/*.md` file, pushes it straight into Nous (file → graph) via `scripts/nous-sync-context.mjs`, so your ICP / positioning / pricing is ALWAYS the current file — you never have to say "sync my ICP". Reads your key from `NOUS_API_KEY` or `~/.nous/config.json`; no-ops if Nous isn't connected. |
+| `context-sync-nudge.sh` | PostToolUse (Edit / Write) | The soft backstop for **playbooks** (which have no auto-sync): reminds the agent to call `sync_playbook` after editing one, since the change is inert until synced. |
 
 ## Why ours write to the brain, not to the pipes
 

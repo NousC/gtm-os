@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# context-sync-nudge.sh — PostToolUse hook (matcher: Edit|Write).
+# context-sync-nudge.sh: PostToolUse hook (matcher: Edit|Write).
 #
-# When a context file or a playbook gets edited, remind the agent that the change does not
-# reach the score or the other agents until it is synced into the resolved record. This is
-# the memory-protocol rule made automatic: never leave an edited context file unsynced.
+# Soft backstop for PLAYBOOK edits. context/*.md files are pushed to Nous automatically
+# by nous-context-sync.sh, but a playbook has no auto-sync, so when one is edited we
+# remind the agent that the change is inert until it calls sync_playbook. (An edited
+# playbook file does not change what other agents read until it is synced.)
 #
 # Pure local. No API keys, no network. Always exits 0.
 
@@ -17,21 +18,18 @@ try:
 except Exception:
     print("")' 2>/dev/null || true)"
 
-# Only fire when a context file or a playbook changed.
+# Only fire for playbooks — context/*.md is handled (hard-synced) by nous-context-sync.sh.
 case "$FILE" in
-  */context/*.md|*context/*.md) IS_CONTEXT=1 ;;
-  *playbook*|*Playbook*|*PLAYBOOK*) IS_CONTEXT=1 ;;
-  *) IS_CONTEXT=0 ;;
+  *playbook*|*Playbook*|*PLAYBOOK*) ;;
+  *) exit 0 ;;
 esac
-[ "$IS_CONTEXT" = "1" ] || exit 0
 
 BASENAME="$(basename "$FILE")"
 
 read -r -d '' MSG <<EOF || true
-You edited a context file ($BASENAME). This changes your written wiki, but it does NOT
-change the ICP score or what other agents read until you sync it into the resolved record.
-If Nous is wired in, sync it this turn: get_icp for an ICP or context file, sync_playbook
-for a playbook. Do not leave an edited context file unsynced.
+You edited a playbook ($BASENAME). It does NOT change what other agents read until you
+sync it. If Nous is wired in, call sync_playbook this turn. Do not leave an edited
+playbook unsynced.
 EOF
 
 python3 -c 'import json,sys
