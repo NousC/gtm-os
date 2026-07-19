@@ -124,41 +124,54 @@ Route by `result`:
 - **`unknown`** -> keep, `email_status = risky`.
 - **`invalid` / `disposable`** -> drop the email. (Fallback, optional, off by default: if `PROSPEO_API_KEY` is set, re-find off the `linkedinUrl` via Prospeo, then re-verify. This is the only case Prospeo helps, never for catch-all.)
 
-## Phase 5, save to your lead store
+## Phase 5, save to your lead database (company, person, and the waterfall log)
 
-Insert the keepers with their verified status. **Supabase (recommended)** via the Supabase
-MCP: create or reuse the list, then insert one row per decision-maker.
+The database splits company from person and records where each email came from, so per
+decision-maker you do three writes. **Supabase (recommended)** via the MCP:
 
 ```sql
--- create or reuse the list
-insert into lead_lists (name, source) values ('LinkedIn, agency founders', 'company_people')
-returning id;
+-- 1. Upsert the company (firmographics live once, shared by everyone there). Get its id.
+insert into companies (name, domain, linkedin_url, industry, employee_count, enriched_at)
+values ('Acme', 'acme.com', 'https://www.linkedin.com/company/acme', 'agency', 8, now())
+on conflict (lower(domain)) do update set enriched_at = now()
+returning id;   -- <COMPANY_ID>
 
--- insert one row per decision-maker (run per lead, or batch the values)
-insert into leads (lead_list_id, name, email, email_status, company, domain,
-                   linkedin_url, title, industry, employee_count, status, source)
-values ('<LIST_ID>', 'Jane Doe', 'jane@acme.com', 'verified', 'Acme', 'acme.com',
-        'https://www.linkedin.com/in/janedoe', 'Founder', 'agency', 8, 'new', 'company_people')
+-- 2. Create or reuse the list, then insert the person attached to that company, with
+--    provenance on the email: which provider found it, who verified it, when.
+insert into lead_lists (name, source) values ('LinkedIn, agency founders', 'company_people') returning id;
+
+insert into leads (lead_list_id, company_id, name, first_name, last_name, email, email_status,
+                   email_source, email_verified_by, last_verified_at, linkedin_url, title,
+                   seniority, status, source, client)
+values ('<LIST_ID>', '<COMPANY_ID>', 'Jane Doe', 'Jane', 'Doe', 'jane@acme.com', 'verified',
+        'harvestapi', 'neverbounce', now(), 'https://www.linkedin.com/in/janedoe', 'Founder',
+        'founder', 'new', 'company_people', null)
 on conflict (lead_list_id, lower(email)) do update
-  set email_status = excluded.email_status, title = excluded.title,
-      linkedin_url = excluded.linkedin_url;
+  set email_status = excluded.email_status, email_verified_by = excluded.email_verified_by,
+      last_verified_at = now(), title = excluded.title
+returning id;   -- <LEAD_ID>
+
+-- 3. Log the waterfall: one row per provider you called for this person's email.
+insert into enrichment_events (lead_id, company_id, field, provider, status, value_found, credits, ran_at)
+values ('<LEAD_ID>', '<COMPANY_ID>', 'work_email', 'harvestapi',  'hit',      'jane@acme.com', 0.012, now()),
+       ('<LEAD_ID>', '<COMPANY_ID>', 'work_email', 'neverbounce', 'verified', 'jane@acme.com', 0.004, now());
 ```
 
-If `lookalike-builder` already inserted the company, update that row with the person instead
-of inserting a new one (match on `domain`). Map: `name` from firstName+lastName,
-`linkedin_url` from `linkedinUrl`, `company` from the input company, `email` from the
-verified address, `email_status` from the NeverBounce verdict, `title` from
-headline/position.
+**The waterfall is the point.** For each person you try providers in order and stop at the
+first verified email, logging an `enrichment_events` row for every call (hit, miss, risky,
+verified) with its cost. If the scraped email comes back `invalid` and Prospeo is enabled,
+that fallback is another provider row. That log is what lets you show later that Jane's email
+was found by HarvestAPI and verified by NeverBounce, and compare provider hit-rates and spend.
+The `email_source` / `email_verified_by` / `last_verified_at` on the lead are the fast read;
+the events table is the full history and the freshness clock for the re-verify pass.
 
-**Pass firmographics through**, `industry` and `employee_count`. When `lookalike-builder`
-hands you the gap companies it already knows each one's industry and size, carry them onto
-every person you save. Standalone, set `industry` from the company and `employee_count` from
-the scrape's company size if present. These are what the ICP score reads, drop them and the
-lead cannot be scored.
+Firmographics (`industry`, `employee_count`) go on the **company**, never duplicated per
+person. If `lookalike-builder` already inserted the company, step 1 just updates it and
+returns the same id. For a client run, set the lead's `client` to the slug.
 
-For **Airtable / Sheets / CSV**, append the same fields as a row. For **Nous (optional)**,
-you can also `record` the person and company so the resolved record and your store agree,
-but the store is the lead list.
+For **Airtable / Sheets / CSV**, append company + person + a provenance column as a flat row.
+For **Nous (optional)**, you can also `record` the person and company so the resolved record
+and your database agree, but the database is the lead list.
 
 Then point the user at `signal-scan` (which enriches these same rows with buying signals and
 the ICP score) and `content-scan` after that.

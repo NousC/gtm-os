@@ -43,11 +43,11 @@ The foundation is **Claude Code**, the runtime you already have. Everything abov
 - **Skills (`.claude/skills/`)** are the work you call by name. **Hooks (`.claude/hooks/`)** run on their own each session. The **agent (`.claude/agents/`)** chains the skills into the full account loop.
 - **Lead store (`supabase/`)** is where your leads live, in a Postgres database you own.
 
-### Supabase manages your leads
+### Your own Clay, in a database you own
 
-Your lead list should live somewhere you own, not locked in a vendor tool. GTM OS keeps it in **your own Supabase Postgres**. You connect your Supabase MCP server, and the agent pushes the ready-made schema (`supabase/schema.sql`) straight into your database, into an existing project or a fresh one, your call. From then on every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, lands in a table you own and can export any time.
+Your lead list should live somewhere you own, not locked in a vendor tool. GTM OS keeps it in **your own Supabase Postgres**, modeled on Clay's waterfall enrichment structure, so it is genuinely a Clay replacement you own: companies enriched once, people attached to them, per-field provenance on every email, and a log of which provider found what and what it cost. You connect your Supabase MCP server, and the agent pushes the schema (`supabase/schema.sql`) straight into your database, existing project or a fresh one, your call. Every lead the find-and-enrich skills produce lands here, scored (by your Nous ICP model or a scoring skill) and tagged.
 
-Ask the OS to show your leads and it renders that table as a shareable page you can open and sort by score, status, or tag. Your pipeline, hosted from your own data.
+Ask the OS to show your leads and it renders them as a **spreadsheet you work in**, a data grid, not a dashboard, with the score, the enrichment, and how the AI found each email. Your pipeline, hosted from your own data.
 
 ---
 

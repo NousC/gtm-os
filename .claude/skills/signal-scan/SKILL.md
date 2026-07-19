@@ -233,24 +233,27 @@ of truth for writing.
 ### 5c. Write the score and signals to your lead store
 
 If the leads live in your own lead store (Supabase, see `supabase/README.md` and
-`connections.md`), the store is the copy you work day to day, so write the results there too:
-set the `icp_score`, put the six signal classes into the `signals` jsonb, and put the brief
-into `signal_brief`. Via the Supabase MCP:
+`connections.md`), write the results there too. The six signal classes and the ICP score are
+**company-level** (shared by everyone at the company), so they go on the **`companies`** row,
+not per person. Via the Supabase MCP:
 
 ```sql
-update leads
+update companies
 set icp_score = <0..100>,
     icp_reason = '<one line, why>',
-    signals = signals || '{"stack":{...},"hiring":{...},"momentum":{...},"friction":{...},"domain":{...}}'::jsonb,
-    signal_brief = '<the markdown brief from 5b>',
-    status = case when <score> >= 70 then 'qualified' else status end
-where lower(domain) = lower('<domain>');   -- or match on lower(email) for a specific person
+    signals = signals || '{"stack":{},"hiring":{},"momentum":{},"friction":{},"domain":{}}'::jsonb,
+    keywords = '["outbound agency","cold email","clay"]'::jsonb,
+    enriched_at = now()
+where lower(domain) = lower('<domain>');
 ```
 
-If Nous is connected it computes the score from the `signal.*` features and you push that
-same number into `leads.icp_score`, so the score in your own database matches the record's.
-If there is no store configured yet, skip this step and note that setting one up (Supabase is
-one MCP add plus one schema run) gives the signals a home you own.
+Every person at that company reads this score and these signals through the `lead_rows` view,
+so you score the company once, not five times. If Nous is connected it computes the score from
+the `signal.*` features and you push that same number into `companies.icp_score`, so your
+database matches the record. To move qualified leads forward, set their `status` on the
+`leads` rows (`update leads set status = 'qualified' where company_id = '<id>' ...`). If there
+is no store configured yet, skip this and note that setting one up (one MCP add plus one schema
+run) gives the signals a home you own.
 
 ### 6. Show the readout (chat only, not saved to a file)
 

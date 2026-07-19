@@ -125,22 +125,23 @@ decides which companies are worth handing to `company-people`.
 
 ## Phase 5, save the company table to your lead store (DEFAULT STOP)
 
-Insert the companies as leads (person fields blank for now, `company-people` fills them).
-**Supabase** via the MCP:
+Insert the discovered companies into the **`companies`** table, firmographics enriched once
+each. `company-people` attaches the people next. **Supabase** via the MCP:
 
 ```sql
-insert into lead_lists (name, source) values ('Lookalikes of <seed>', 'lookalike') returning id;
-
-insert into leads (lead_list_id, company, domain, linkedin_url, industry,
-                   employee_count, icp_score, icp_reason, status, source)
-values ('<LIST_ID>', 'Acme', 'acme.com', 'https://www.linkedin.com/company/acme',
-        'agency', 8, 82, 'matches size + outbound keywords', 'new', 'lookalike')
-on conflict (lead_list_id, lower(email)) do nothing;
+insert into companies (name, domain, linkedin_url, industry, employee_count, employee_range,
+                       icp_score, icp_reason, enriched_at)
+values ('Acme', 'acme.com', 'https://www.linkedin.com/company/acme',
+        'agency', 8, '1-10', 82, 'matches size + outbound keywords', now())
+on conflict (lower(domain)) do update
+  set icp_score = excluded.icp_score, icp_reason = excluded.icp_reason,
+      employee_count = excluded.employee_count, enriched_at = now();
 ```
 
-(For a company-only row the `email` is null, so the unique-on-email conflict does not fire;
-dedup on `domain` in your insert logic.) For **Airtable / Sheets / CSV**, append the same
-fields.
+Dedup is on the domain, so re-running refreshes rather than duplicates. Do not create `leads`
+rows here, companies only, `company-people` attaches the people. Per-client scoping happens on
+the leads, not the company (firmographics are shared). For **Airtable / Sheets / CSV**, append
+the same company fields.
 
 Then **hand off**: "Company table saved, N companies, top-scored first. Run `/company-people`
 on this list to get the founder and verified email at each." That is the default stop.

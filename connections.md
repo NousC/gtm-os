@@ -42,7 +42,7 @@ This is an option. The kit works with whatever record you already have.
 
 ## The lead store (row 9)
 
-Your lead list should live somewhere you own. The recommended home is your own **Supabase Postgres**, wired in as an MCP, with the ready-made schema in `supabase/schema.sql`. It holds every lead the find-and-enrich skills produce, with its ICP score, its signals, and your tags, in a table you own and can export any time.
+Your lead list should live somewhere you own. The recommended home is your own **Supabase Postgres**, wired in as an MCP, with the ready-made schema in `supabase/schema.sql`. It is modeled on Clay's waterfall enrichment structure (companies enriched once, people attached, a log of which provider found each email), so it is a Clay replacement you own. Every lead the find-and-enrich skills produce lands here with its ICP score and signals, in a database you own and can export any time.
 
 To wire it in:
 

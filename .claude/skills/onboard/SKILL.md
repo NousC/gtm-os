@@ -150,23 +150,24 @@ Once it is live, onboard the workspace, in this run:
 
 If the user did not connect Nous, say plainly that B is the one part still open: their context (A) is done and theirs, but until the record is wired in, the OS acts on a static document, not live truth. The moment they connect it, syncing the ICP is the first thing to do. Leave a clear note in `CLAUDE.md` so it is not forgotten.
 
-## Step 7: set up your lead store (your own list-building tool)
+## Step 7: set up your lead database (your own Clay)
 
-With A and B in place, set up the last piece: the user's own list-building tool, where the leads they find get handled before they reach out. Frame it as its own thing, and draw the difference from Nous plainly, because "why do I need both?" is a fair question. In your own words:
+With A and B in place, set up the last piece: the user's own lead database, where the leads they find get built and worked before they reach out. It is modeled on Clay's waterfall enrichment structure, so it is genuinely a Clay replacement they own. Frame it as its own thing, and draw the difference from Nous plainly, because "why do I need both?" is a fair question. In your own words:
 
-> "Last piece: your own list-building tool. This is where the leads you find get staged and worked before you reach out, scored, tagged, moved through the pipeline, in a simple table you own. It is not the same as Nous. Nous is the live record of your accounts, the intelligence that resolves and scores everyone. This is your working list, the batch you are building and about to contact. Nous feeds it the score, you own and work the list. I recommend your own Supabase Postgres. Connect your Supabase MCP and I run a ready-made schema into it, then I can build you an artifact so you can see the whole list, sorted by fit. Want to set it up?"
+> "Last piece: your own lead database, your own Clay. This is where the leads you find get built, enriched, scored, and worked before you reach out, in a database you own. It is built on the same waterfall structure Clay uses, companies enriched once, people attached to them, and a log of which provider found each email so the data is trustworthy. It is not the same as Nous. Nous is the intelligence that scores your accounts, this is the working list you build and contact. In fact you can point it at Nous for the scoring: Nous holds your ICP model, so the OS calls Nous to score each lead and writes that score into your table, and if you run several clients, each gets its own Nous workspace and its own scores. I recommend your own Supabase Postgres. Connect your Supabase MCP and I run the schema into it, then I can render the whole thing as a spreadsheet you work in. Want to set it up?"
 
 Then, low-friction, do not make them touch SQL:
 
 - **Supabase (recommended).** The user connects their Supabase MCP server (`claude mcp add supabase ...`, see `supabase/README.md`). Then you do the rest:
   1. Ask whether to push the schema into an existing project or a fresh one. Their call.
-  2. Apply `supabase/schema.sql` yourself with the MCP `apply_migration`. No SQL editor, no paste. Confirm the `lead_lists` and `leads` tables exist.
-  3. Record Supabase as the lead store in `connections.md` (row 9), and offer to save `references/supabase-mcp.md`.
-  4. **Offer the artifact.** Once it is connected, offer to render the store as a sortable page (read `lead_list_overview` and build a self-contained artifact). It is empty until the find-and-enrich skills fill it, so frame it as "here is where your list will show up." This is the payoff that makes the store real to them.
+  2. Apply `supabase/schema.sql` yourself with the MCP `apply_migration`. No SQL editor, no paste. Confirm the `companies`, `leads`, and `enrichment_events` tables exist.
+  3. Record Supabase as the lead database in `connections.md` (row 9), and offer to save `references/supabase-mcp.md`.
+  4. **On the ICP score, mention Nous.** If Nous is connected, the score in the table comes from their Nous ICP model. For multiple clients, one Nous workspace per client scores that client's leads. The score is always visible in the table view.
+  5. **Offer the spreadsheet.** Once it is connected, offer to render it as a real spreadsheet. Read `lead_rows` and follow `supabase/lead-table.md` exactly, a data grid, not a dashboard. It is empty until the find-and-enrich skills fill it, so frame it as "here is where your list will show up." This is the payoff that makes it real to them.
 - **Airtable / Sheets:** record the tool and table in `connections.md` as the lead store; the skills append rows there.
 - **CSV to start:** the skills write to `leads/`. They can graduate to Supabase any time, the schema is ready.
 
-Whatever they pick, write it into `connections.md` so the find-and-enrich skills know where to save. For a client run (Step 1), stamp the client `<slug>` into the store's `client` column so their leads stay scoped.
+Whatever they pick, write it into `connections.md` so the find-and-enrich skills know where to save. For a client run (Step 1), stamp the client `<slug>` into the `leads.client` column so their leads stay scoped.
 
 ## Step 8: hand off (make it land)
 
