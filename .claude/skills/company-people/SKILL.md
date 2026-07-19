@@ -113,9 +113,11 @@ approval URL and stop.
 This is the Clay rule and the difference between a lead list and a trustworthy one. Do not
 just keep the scraped email. Resolve the work email:
 
-1. Call email providers in **trust order**. HarvestAPI already returned one candidate with the
-   scrape. If it fails, and `PROSPEO_API_KEY` is set, Prospeo off the LinkedIn URL is the next
-   candidate. (Add Dropcontact, Apollo, Hunter, Findymail in the same pattern.)
+1. Call email providers in the **locked trust order**: HarvestAPI (from the scrape), then
+   Prospeo, Dropcontact, Apollo, Hunter, Findymail. Verifier: NeverBounce (or ZeroBounce),
+   with skip-catch-all on. HarvestAPI already returned one candidate with the scrape; the rest
+   are fallbacks, tried only if the ones before fail. This order is the default the render and
+   the spec assume, keep it unless the user changes it.
 2. **Verify each returned address immediately** with NeverBounce:
    ```bash
    curl -s "https://api.neverbounce.com/v4/single/check?key=$NEVERBOUNCE_API_KEY&email=jane@acme.com&address_info=1"

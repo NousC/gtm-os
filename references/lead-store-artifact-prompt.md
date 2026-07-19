@@ -1,15 +1,16 @@
 # Lead store artifact: build prompt
 
-A reusable spec for rendering the v2 lead store as a minimal, Google-Sheets-style
-spreadsheet artifact. Hand this file to Claude Code with a data pull and it rebuilds the
-view. Data-shape-driven, so it works for any workspace. The OS renders this on request, after
-the find-and-enrich skills fill the database.
+A reusable spec for rendering the v2 lead store as a **Clay-style** table artifact. Hand this
+file to Claude Code with a data pull and it rebuilds the view. Data-shape-driven, so it works
+for any workspace. The OS renders this on request, after the find-and-enrich skills fill the
+database.
 
 ## The one-line ask
 
 > Render my lead store (`companies` + `leads` + `lead_emails` + `enrichment_events`) as one
-> self-contained HTML artifact that looks and behaves like a minimal Google Sheets: a dense
-> grid, per-client sheet tabs, the enrichment waterfall as provider columns, filters, add
+> self-contained HTML artifact that looks and behaves like Clay's table view: an airy grid with
+> black line-icon headers and a checkbox column, per-client bottom tabs, the enrichment
+> waterfall as provider columns showing each tool's real logo, filters, add
 > column, resizable columns, CSV export, and a record drawer.
 
 ## Data it reads (one query, embed the result as a JS `DATA` object)
@@ -28,28 +29,38 @@ order by l.icp_score desc nulls last;
 
 (For the candidate view, also read `lead_emails` per lead: email, provider, verification, is_primary.)
 
-## Look and feel (non-negotiables)
+## Look and feel (Clay, not a dashboard)
 
-- **Minimal Google Sheets, not a dashboard.** White ground, hairline grid lines, Arial/system
-  sans 13px. No cards, hero, stat tiles, brand dot, or meta legend bar.
-- **Two frozen header rows:** a thin grey **column-letter row** (A, B, C and so on) on top,
-  then the **field-name row**. **Frozen left:** row-number (`#`) and the **Name** column.
-- **Column types colour-coded subtly:** input columns neutral; **enrichment columns carry a
-  bolt icon and a purple label**; the ICP column is a blue **formula (f)**. Small header icons
-  where they help (mail, phone, check, company, tags).
-- **Cells are conditional-format plain:** ICP coloured by tier (green 85 and up, amber 70 to
-  84, orange under 70); email shows a status dot plus provider; a stale `verified Nd ago`
-  (over 30d) turns amber.
+The reference is Clay's table view. Match it, minus the Clay logo.
+
+- **A Clay grid, not Google Sheets.** White ground, hairline grid lines, system sans 13px. No
+  cards, hero, stat tiles, brand dot, or legend bar. And **no A/B/C column-letter row**, that
+  is Sheets; this is Clay.
+- **Taller, airy rows** (about 40px), roomy like Clay, not a cramped spreadsheet.
+- **A monochrome black line-icon in every column header**, stroke-only, dark, no purple
+  (building for company, people for size, mail for email, shield for verified, clock for
+  freshness, target for ICP, tag for tags, coin for credits). Small and consistent.
+- **A dark rounded glyph in the first cell**, a small building tile before each name, like
+  Clay's per-row company mark.
+- **A checkbox and row-number column** on the left: it shows the row number, swaps to a
+  checkbox on hover, with `N / total selected` top-right in the toolbar.
+- **A Clay toolbar** on one line: the view name with a caret (`Dream 100 ▾`) on the left, then
+  `Filter`, `Sort`, `Columns`, `Export` as light text buttons with line-icons.
+- **Cells conditional-format plain:** the ICP as a small colored chip by tier (green 85 and up,
+  amber 70 to 84, orange under 70); email a status dot plus its provider mark; a stale
+  `verified Nd ago` (over 30d) turns amber.
 - Theme-aware (light/dark, `prefers-color-scheme` plus `data-theme`).
 
 ## Functionality (all client-side, self-contained)
 
-1. **Enrichment waterfall as default columns.** One column per email provider (Prospeo,
-   Dropcontact, Apollo, Hunter, Findymail). Each cell shows **the email that provider returned
-   plus its verification**: the chosen work email is marked with a star, rejected candidates
-   struck through in red (invalid) or amber (risky), misses shown as a dash, providers not
-   reached left blank. Hover shows credits. This is the Clay waterfall made visible.
-2. **Per-client views as bottom sheet tabs** (Google-Sheets tabs). Generated from the data:
+1. **Enrichment waterfall as default columns, with the real provider logos.** One column per
+   email provider in the locked trust order (Prospeo, Dropcontact, Apollo, Hunter, Findymail).
+   Each header carries **that tool's real logo** (see Provider logos below), not a letter. Each
+   cell shows **the email that provider returned plus its verification**: the chosen work email
+   marked with a star, rejected candidates struck through in red (invalid) or amber (risky),
+   misses a dash, providers not reached left blank. The same logo sits next to the source in the
+   Work Email cell. Hover shows credits. This is the Clay waterfall made visible.
+2. **Per-client views as bottom tabs** (like Clay's saved views). Generated from the data:
    `All leads`, `My lists` (client null), one tab per distinct `client`. This is where "one
    dashboard per client" lives.
 3. **Quick-filter bar** of one-click toggles (Verified email, Has email, Missing email, By
@@ -67,6 +78,24 @@ order by l.icp_score desc nulls last;
    freshness plus phone, each with provider), Fit and workflow, and the **email waterfall**
    listing each candidate email plus verdict, the chosen one highlighted, titled "work email =
    first verified".
+
+## Provider logos (embed them, the CSP blocks linking)
+
+The waterfall columns and the Work Email source carry each tool's real logo. Because the
+artifact cannot fetch external images, the marks must be inlined in the file:
+
+- Prefer an SVG the user dropped in `references/logos/<provider>.svg` (crisp and exact).
+- Otherwise fetch each provider's favicon (for example the Google favicon service for their
+  domain), base64-encode it, and inline it as a `data:` URI. Favicons are the genuine marks and
+  small (about 15KB for the full set of Prospeo, Dropcontact, Apollo, Hunter, Findymail, plus
+  NeverBounce and ContactOut).
+- Route every provider mark through one `brandChip(provider)` hook that prefers an embedded
+  logo and falls back to a brand-colored monogram chip (a colored tile plus the initial in that
+  tool's brand color) when no logo is available. A rebuild then degrades gracefully, and a
+  single drop-in SVG upgrades a chip to a real logo.
+
+Never use the Clay logo. These are the enrichment providers' own marks, and they read as
+"this is a real enrichment stack" the moment someone opens the sheet.
 
 ## Build constraints (Artifact CSP)
 
