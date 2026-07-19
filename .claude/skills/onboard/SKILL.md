@@ -189,9 +189,17 @@ Keep it to the three or four things that are true.
 
 If those sources are already connected, do not say any of that. Note it as a win instead, "your inbox, notetaker, calendar, and LinkedIn are already connected, so the record is already pulling from them." If Nous is not connected at all, the reminder is simply that wiring it in is the next unlock.
 
-**3. The first move, build a skill.** Then point them at the thing that makes the OS theirs:
+**3. What you already have, then your first skill.** First remind them the kit already ships with a working toolkit, a quick rundown, one line each, of the skills they can run now:
 
-> "Want to make this yours? Tell me one tedious thing you do over and over in your GTM, prepping the same kind of call, writing the same follow-up, pulling the same list, and we will turn it into a skill you run with a command. Just describe it and I will build it with you."
+> "You already have a set of skills in here. The ones worth knowing:
+> - `/audit`, checks your setup and flags what has gone stale or thin.
+> - `/morning-brief`, pulls your accounts, your follow-ups, and what went quiet into one short brief, so every morning you start on what actually matters.
+> - `/lookalike-builder` and `/company-people`, build a lead list, the right companies and the decision-maker at each.
+> - `/signal-scan` and `/content-scan`, enrich those leads with buying signals and intent, and score them."
+
+Then point them at the thing that makes the OS truly theirs, their own skill:
+
+> "Those ship with the kit. The real power is the ones you build. Tell me one tedious thing you do over and over in your GTM, prepping the same kind of call, writing the same follow-up, pulling the same list, and we will turn it into a skill you run with a command. Just describe it and I will build it with you."
 
 If they name one, build it with them (through the `skill-creator` plugin if it is installed, otherwise scaffold `.claude/skills/<name>/SKILL.md` and refine it together). If not, it is there when they want it.
 
